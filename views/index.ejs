@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Virtual Agent</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Index page</h1>
-  </body>
+
+<head>
+  <title>Virtual Agent</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>Index page</h1>
+</body>
+<!-- Socket.io -->
+<script src='/socket.io/socket.io.js'></script>
+<script type="text/javascript">
+  var socket = io();
+  socket.on('connect', function (data) {
+    console.log('Connected to socket.io');
+    socket.emit('register-virtualagent');
+  }).on('newCall', function (data) {
+    console.log('newCall');
+  }).on('callEnd', function (data) {
+    console.log('callEnd');
+  });
+</script>
+
 </html>

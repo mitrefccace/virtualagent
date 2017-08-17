@@ -7,6 +7,7 @@ var config = require('../private/config.json');
 var app = require('../app');
 var debug = require('debug')('virtualagent:server');
 var http = require('http');
+var io = require('socket.io');
 
 /**
  * Connect to Asterisk
@@ -34,6 +35,14 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+
+/**
+ * Add socket.io to the server.
+ */
+
+require('../sockets')(io.listen(server));
+
 
 /**
  * Normalize a port into a number, string, or false.

@@ -1,5 +1,9 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
+var io = require('socket.io-client');
+var socket = io.connect('http://localhost:'+config.port, {
+    reconnect: true
+});
 
 
 var ami = new AsteriskManager(
@@ -20,7 +24,7 @@ ami.on('connect', function (evt) {
     console.log('Connected to Asterisk');
 });
 
-
+//socket.emit("newCall", data);
 
 ami.on('dialend', function (evt) {
     console.log('dialend')
