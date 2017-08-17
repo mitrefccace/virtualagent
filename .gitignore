@@ -1,1 +1,3 @@
 *.webm
+node_modules/
+private/config.json

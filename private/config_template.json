@@ -1,0 +1,10 @@
+{
+    "port": 8000,
+    "mysql": "blah",
+    "asterisk": {
+        "port": 5038,
+        "host": "private ip",
+        "user": "username",
+        "password": "password"
+    }
+}
