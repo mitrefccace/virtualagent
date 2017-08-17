@@ -11,6 +11,9 @@ var ami = new AsteriskManager(
 
 ami.keepConnected();
 
+ami.on('connect', function (evt) {
+    console.log('Connected to Asterisk')
+});
 
 ami.on('dialend', function (evt) {
     console.log('dialend')
