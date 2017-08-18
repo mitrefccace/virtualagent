@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Virtual Agent</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <video id="remoteView" autoplay></video>
+  <video id="selfView" autoplay></video>
+  <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
+
+  <!-- Jssip hidden data -->
+  <div hidden>
+    <div id="my_sip_uri"> </div>
+    <div id="ws_servers"> </div>
+    <div id="sip_password"> </div>
+    <div id="pc_config"> </div>
+  </div>
+
+</body>
+<!-- JSSIP-->
+<script type="text/javascript" src="./javascript/jssip.min.js"></script>
+<script type="text/javascript" src="./javascript/myJssip.js"></script>
+<script type="text/javascript" src="./javascript/RecordRTC.js"></script>
+<!-- Socket.io -->
+<script src='/socket.io/socket.io.js'></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+
+
+        var ws = "wss://njsip.task3acrdemo.com/ws";
+        var sipUri = "sip:80001@njsip.task3acrdemo.com";
+        var pw = "1qaz1qaz";
+        var stun =  "stun:newstun.task3acrdemo.com:3478";
+        register_jssip(ws, sipUri, pw, stun);
+
+      
+        var socket = io();
+        socket.on('connect', function (data) {
+          console.log('Connected to socket.io');
+          socket.emit('register-virtualagent');
+        }).on('newCall', function (data) {
+          console.log('newCall');
+        }).on('callEnd', function (data) {
+          console.log('callEnd');
+        });
+      }
+</script>
+
+</html>
