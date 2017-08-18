@@ -26,18 +26,24 @@ ami.on('connect', function (evt) {
 
 //socket.emit("newCall", data);
 
+ami.on('managerevent', function(evt) {
+    console.log(JSON.stringify(evt));
+    
+});
+
 ami.on('dialend', function (evt) {
-    console.log('dialend')
+    console.log('dialend');
 });
 
 ami.on('hangup', function (evt) {
-    console.log('hangup')
+    console.log('hangup');
 });
 
 function sendAmiAction(obj) {
     ami.action(obj, function (err, res) {
         if (err) {
-            logger.error('AMI Action error ' + err);
+            // logger.error('AMI Action error ' + err);
+            console.log('AMI Action error ' + JSON.stringify(err));
         }
 
     });
