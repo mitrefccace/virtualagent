@@ -13,10 +13,10 @@ console.log("port: " + config.asterisk.password);
 
 
 var ami = new AsteriskManager(
-    config.asterisk.port,
-    config.asterisk.host,
-    config.asterisk.user,
-    config.asterisk.password,
+    5038,
+    "172.21.1.100",
+    "ad-asterisk",
+    "ad-asterisk",
     true);
 
 ami.keepConnected();
