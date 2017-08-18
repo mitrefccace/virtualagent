@@ -10,7 +10,7 @@ var hide_video_button = document.getElementById("hide-video");
 var mute_audio_icon = document.getElementById("mute-audio-icon");
 var hide_video_icon = document.getElementById("hide-video-icon");
 var hold_button = document.getElementById("hold-call");
-var debug = false; //console logs event info if true
+var debug = true; //console logs event info if true
 var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
 
 
