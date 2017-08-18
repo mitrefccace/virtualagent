@@ -36,17 +36,28 @@ ami.on('connect', function (evt) {
 
 //socket.emit("newCall", data);
 
+/*
 ami.on('managerevent', function (evt) {
     console.log(JSON.stringify(evt));
 
 });
+*/
 
 ami.on('dialend', function (evt) {
-    console.log('dialend');
+    console.log('\nIncoming DialEnd event');
 });
 
 ami.on('hangup', function (evt) {
-    console.log('hangup');
+    console.log('\nIncoming Hangup event');
+});
+
+ami.on('newstate', function (evt) {
+    console.log('\nIncoming Newstate event');
+    
+    if (evt.channelstate === "5") {
+        console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
+        
+    }
 });
 
 function sendAmiAction(obj) {
