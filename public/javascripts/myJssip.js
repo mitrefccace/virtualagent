@@ -177,7 +177,9 @@ function register_jssip(ws_server, my_sip_uri, sip_password, stunServer)
 
 	});
 
-	if (debug) console.log("CONNECTED\nws_server: " + ws_servers.getAttribute("name") + "\nsip_uri: " + my_sip_uri.getAttribute("name"));
+	//if (debug) console.log("CONNECTED\nws_server: " + ws_servers.getAttribute("name") + "\nsip_uri: " + my_sip_uri.getAttribute("name"));
+  if (debug) console.log("CONNECTED\nws_server: " + ws_server + "\nsip_uri: " + my_sip_uri);
+
 }
 
 //makes a call
