@@ -19,6 +19,19 @@
     <div id="pc_config"> </div>
   </div>
 
+  
+  
+                                    <div id= "call-option-buttons">     
+                                        <div id= "inner">     
+                                            <button  id="mute-audio" type = "button" class = "btn btn-gray" onclick = "mute_audio()"> <i id= "mute-audio-icon" class="call-btn-icon fa fa-microphone"></i> </button> 
+                                            <button  id="hide-video" type = "button" class = "btn btn-gray" onclick = "hide_video()"> <i class="call-btn-icon fa fa-video-camera"></i>  <div id= "hide-video-icon" class = "fa fa-close fa-close-style" style="display: none;"></div> <!-- hack for hide video button since there's no fa-icon for it. we overlay an x and hide and show it when needed--></button>  
+                                            <!-- <button id="hold-call" style="text-align: center; padding: 0px;" type = "button" class = "btn btn-gray" onclick = "hold()">Hold</button>           -->
+                                            <button id="end-call" type = "button" class = "btn btn-danger" onclick = "terminate_call()"> <i class="call-btn-icon fa fa-phone fa-rotate-135"></i> </button> 
+                                        </div>
+                                    </div>
+
+                                    
+  
 </body>
 <!-- JSSIP-->
 <script type="text/javascript" src="./javascripts/jquery.min.js"></script>
