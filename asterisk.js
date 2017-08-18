@@ -1,7 +1,7 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
-var socket = io.connect('http://localhost:'+config.port, {
+var socket = io.connect('http://localhost:' + config.port, {
     reconnect: true
 });
 
@@ -15,20 +15,30 @@ var ami = new AsteriskManager(
 
 ami.keepConnected();
 
-setTimeout(()=>{
-    if(!ami.connected())
+setTimeout(() => {
+    if (!ami.connected())
         console.log('Asterisk Connection Failure');
-},1000);
+}, 1000);
 
 ami.on('connect', function (evt) {
     console.log('Connected to Asterisk');
+
+    ami.action({
+        "Action": "QueueAdd",
+        "Interface": "PJSIP/80001",
+        "Paused": "false",
+        "Queue": "MailQueue"
+    }, function (err, res) {});
+
+
+
 });
 
 //socket.emit("newCall", data);
 
-ami.on('managerevent', function(evt) {
+ami.on('managerevent', function (evt) {
     console.log(JSON.stringify(evt));
-    
+
 });
 
 ami.on('dialend', function (evt) {
