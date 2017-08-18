@@ -65,6 +65,7 @@ ami.on('newstate', function (evt) {
     
     if (evt.channelstate === "5") {
         console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
+        socket.emit("newCall", evt);
         
     }
 });
