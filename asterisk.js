@@ -5,6 +5,12 @@ var socket = io.connect('http://localhost:' + config.port, {
     reconnect: true
 });
 
+console.log("Asterisk configs:");
+console.log("port: " + config.asterisk.port);
+console.log("port: " + config.asterisk.host);
+console.log("port: " + config.asterisk.user);
+console.log("port: " + config.asterisk.password);
+
 
 var ami = new AsteriskManager(
     config.asterisk.port,
