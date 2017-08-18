@@ -1,0 +1,1 @@
+The _db_ folder will contain SQL scripts to create the videomail metadata table.
