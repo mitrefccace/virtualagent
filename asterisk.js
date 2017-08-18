@@ -51,14 +51,17 @@ ami.on('managerevent', function (evt) {
 
 ami.on('dialend', function (evt) {
     console.log('\nIncoming DialEnd event');
+    console.log(JSON.stringify(evt));
 });
 
 ami.on('hangup', function (evt) {
     console.log('\nIncoming Hangup event');
+    console.log(JSON.stringify(evt));
 });
 
 ami.on('newstate', function (evt) {
     console.log('\nIncoming Newstate event');
+    console.log(JSON.stringify(evt));
     
     if (evt.channelstate === "5") {
         console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
