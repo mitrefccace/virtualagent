@@ -1,5 +1,10 @@
 {
     "port": 8000,
+    "protocol": "https",
+    "ssl": {
+        "key": "",
+        "cert": ""
+    },
     "mysql": "blah",
     "asterisk": {
         "port": 5038,

@@ -184,6 +184,7 @@ function register_jssip(ws_server, my_sip_uri, sip_password, stunServer)
 
 //makes a call
 //@param other_sip_uri: is the sip uri of the person to call
+/*
 function start_call(other_sip_uri)
 {
 	var options = {
@@ -198,9 +199,8 @@ function start_call(other_sip_uri)
 	   }
 	};
 	 
-	if (debug) console.log("CALL FROM " + my_sip_uri + " TO " + other_sip_uri);
 	ua.call(other_sip_uri, options);
-}
+}*/
 
 function onRemoteStreamAdded(event) {
 

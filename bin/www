@@ -25,8 +25,17 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+if (config.protocol === "https") {
+  console.log("https");
+  var credentials = {
+    key: fs.readFileSync(config.ssl.key),
+    cert: fs.readFileSync(config.ssl.key)
+  };
+  var server = https.createServer(credentials, app);
+} else {
+  console.log("http");
+  var server = http.createServer(app);
+}
 
 /**
  * Listen on provided port, on all network interfaces.

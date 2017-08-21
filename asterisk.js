@@ -7,16 +7,16 @@ var socket = io.connect('http://localhost:' + config.port, {
 
 console.log("Asterisk configs:");
 console.log("port: " + config.asterisk.port);
-console.log("port: " + config.asterisk.host);
-console.log("port: " + config.asterisk.user);
-console.log("port: " + config.asterisk.password);
+console.log("host: " + config.asterisk.host);
+console.log("user: " + config.asterisk.user);
+console.log("pass: " + config.asterisk.password);
 
 
 var ami = new AsteriskManager(
-    5038,
-    "172.21.1.100",
-    "ad-asterisk",
-    "ad-asterisk",
+    config.asterisk.port,
+    config.asterisk.host,
+    config.asterisk.user,
+    config.asterisk.password,
     true);
 
 ami.keepConnected();
