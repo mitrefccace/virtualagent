@@ -65,6 +65,7 @@
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       console.log('newCall');
+      accept_call();
     }).on('callEnd', function (data) {
       console.log('callEnd');
     });
