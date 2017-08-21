@@ -6,7 +6,9 @@
 var config = require('../private/config.json');
 var app = require('../app');
 var debug = require('debug')('virtualagent:server');
+var https = require('https');
 var http = require('http');
+var fs = require('fs');
 var io = require('socket.io');
 
 /**
