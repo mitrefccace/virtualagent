@@ -12,26 +12,26 @@
   <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
 
   <!-- Jssip hidden data -->
+  <!-- Remove
   <div hidden>
     <div id="my_sip_uri"> </div>
     <div id="ws_servers"> </div>
     <div id="sip_password"> </div>
     <div id="pc_config"> </div>
   </div>
+-->
 
-  
-  
-                                    <div id= "call-option-buttons">     
-                                        <div id= "inner">     
-                                            <button  id="mute-audio" type = "button" class = "btn btn-gray" onclick = "mute_audio()"> <i id= "mute-audio-icon" class="call-btn-icon fa fa-microphone"></i> </button> 
-                                            <button  id="hide-video" type = "button" class = "btn btn-gray" onclick = "hide_video()"> <i class="call-btn-icon fa fa-video-camera"></i>  <div id= "hide-video-icon" class = "fa fa-close fa-close-style" style="display: none;"></div> <!-- hack for hide video button since there's no fa-icon for it. we overlay an x and hide and show it when needed--></button>  
-                                            <!-- <button id="hold-call" style="text-align: center; padding: 0px;" type = "button" class = "btn btn-gray" onclick = "hold()">Hold</button>           -->
-                                            <button id="end-call" type = "button" class = "btn btn-danger" onclick = "terminate_call()"> <i class="call-btn-icon fa fa-phone fa-rotate-135"></i> </button> 
-                                        </div>
-                                    </div>
 
-                                    
-  
+  <div id="call-option-buttons">
+    <div id="inner">
+      <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> <i id= "mute-audio-icon" class="call-btn-icon fa fa-microphone"></i> </button>
+      <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> <i class="call-btn-icon fa fa-video-camera"></i>  <div id= "hide-video-icon" class = "fa fa-close fa-close-style" style="display: none;"></div> <!-- hack for hide video button since there's no fa-icon for it. we overlay an x and hide and show it when needed--></button>
+      <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> <i class="call-btn-icon fa fa-phone fa-rotate-135"></i> </button>
+    </div>
+  </div>
+
+
+
 </body>
 <!-- JSSIP-->
 <script type="text/javascript" src="./javascripts/jquery.min.js"></script>
@@ -44,30 +44,32 @@
   $(document).ready(function () {
 
 
-        var ws = "wss://njsip.task3acrdemo.com/ws";
-        var sipUri = "sip:80001@njsip.task3acrdemo.com";
-        var pw = "1qaz1qaz";
-        var stun =  "stun:newstun.task3acrdemo.com:3478";
-        
-        //store in hidden fieldset
+    var ws = "wss://njsip.task3acrdemo.com/ws";
+    var sipUri = "sip:80001@njsip.task3acrdemo.com";
+    var pw = "1qaz1qaz";
+    var stun = "stun:newstun.task3acrdemo.com:3478";
+
+    /* Remove
+        //store in hidden fieldset        
 				$('#ws_servers').attr("name", ws);					 
 				$('#my_sip_uri').attr("name",sipUri);
         $('#sip_password').attr("name",pw);
  				$("#pc_config").attr("name",stun);
+         */
 
-        //now register
-        register_jssip(ws, sipUri, pw, stun);
-      
-        var socket = io();
-        socket.on('connect', function (data) {
-          console.log('Connected to socket.io');
-          socket.emit('register-virtualagent');
-        }).on('newCall', function (data) {
-          console.log('newCall');
-        }).on('callEnd', function (data) {
-          console.log('callEnd');
-        });
-      });
+    //now register
+    register_jssip(ws, sipUri, pw, stun);
+    start_self_video()
+    var socket = io();
+    socket.on('connect', function (data) {
+      console.log('Connected to socket.io');
+      socket.emit('register-virtualagent');
+    }).on('newCall', function (data) {
+      console.log('newCall');
+    }).on('callEnd', function (data) {
+      console.log('callEnd');
+    });
+  });
 </script>
 
 </html>
