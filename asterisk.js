@@ -1,7 +1,12 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
-var socket = io.connect(config.protocol + '://localhost:' + config.port, {
+
+var socketPath = config.protocol + '://localhost:' + config.port;
+
+console.log("Socket Path: " + socketPath);
+
+var socket = io.connect(socketPath, {
     reconnect: true
 });
 
