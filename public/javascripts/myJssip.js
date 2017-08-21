@@ -242,7 +242,7 @@ function accept_call()
 //starts the local streaming video. Works with some older browsers, if it is incompatible it logs an error message, and the selfStream html box stays hidden
 function start_self_video()
 {
-	if(selfStream.hasAttribute("hidden")||true) //then the video wasn't already started
+	if(selfStream.hasAttribute("hidden")) //then the video wasn't already started
 	{	
 		// Older browsers might not implement mediaDevices at all, so we set an empty object first
 		if (navigator.mediaDevices === undefined) {
