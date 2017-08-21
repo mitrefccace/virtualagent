@@ -1,6 +1,7 @@
 function Socket(io) {
+    console.log("Loaded sockets.js")
     io.on("connection", (socket) => {
-        console.log("Connected to Admin");
+        console.log("Connected to Socket");
 
         socket.on("register-virtualagent", () => {
             console.log('new virtualagent room');
