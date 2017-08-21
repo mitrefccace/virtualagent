@@ -14,10 +14,6 @@ function Socket(io) {
                 "stun": "stun:newstun.task3acrdemo.com:3478"
             };
             io.to(socket.id).emit('registerJssip', jssipData);
-            setTimeout(() => {
-                console.log("Firing newCall");
-                io.to(socket.id).emit('newCall', "ANSWER");
-            }, 5000)
         });
 
         socket.on('newCall', (data) => {
