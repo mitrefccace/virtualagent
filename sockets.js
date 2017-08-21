@@ -20,8 +20,9 @@ function Socket(io) {
             }, 5000)
         });
 
-        socket.on('event1', (data) => {
-            console.log('Socket event1: ' + data);
+        socket.on('newCall', (data) => {
+            console.log("Firing newCall");
+            io.emit('newCall', "ANSWER");
         });
     });
 };
