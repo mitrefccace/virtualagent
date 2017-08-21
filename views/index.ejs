@@ -44,10 +44,7 @@
   $(document).ready(function () {
 
 
-    var ws = "wss://njsip.task3acrdemo.com/ws";
-    var sipUri = "sip:80001@njsip.task3acrdemo.com";
-    var pw = "1qaz1qaz";
-    var stun = "stun:newstun.task3acrdemo.com:3478";
+
 
     /* Remove
         //store in hidden fieldset        
@@ -57,13 +54,14 @@
  				$("#pc_config").attr("name",stun);
          */
 
-    //now register
-    register_jssip(ws, sipUri, pw, stun);
-    start_self_video()
+    
+
     var socket = io();
     socket.on('connect', function (data) {
       console.log('Connected to socket.io');
       socket.emit('register-virtualagent');
+    }).on('registerJssip' function (data){
+      register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       console.log('newCall');
     }).on('callEnd', function (data) {
