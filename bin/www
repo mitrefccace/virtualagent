@@ -31,7 +31,7 @@ if (config.protocol === "https") {
   console.log("https");
   var credentials = {
     key: fs.readFileSync(config.ssl.key),
-    cert: fs.readFileSync(config.ssl.key)
+    cert: fs.readFileSync(config.ssl.cert)
   };
   var server = https.createServer(credentials, app);
 } else {
