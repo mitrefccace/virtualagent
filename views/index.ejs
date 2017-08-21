@@ -60,7 +60,8 @@
     socket.on('connect', function (data) {
       console.log('Connected to socket.io');
       socket.emit('register-virtualagent');
-    }).on('registerJssip' function (data){
+    }).on('registerJssip', function (data){
+      console.log('Registering JSSIP');
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       console.log('newCall');
