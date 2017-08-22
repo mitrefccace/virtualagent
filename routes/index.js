@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 router.post('/uploadFile', function (req, res) {
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
-  var dir = !!process.platform.match(/^win/) ? '\\..\\uploads\\' : '../uploads/';
+  var dir = !!process.platform.match(/^win/) ? '\\..\\uploads\\' : '/../uploads/';
 
   form.uploadDir = __dirname + dir;
   form.keepExtensions = true;
