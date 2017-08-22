@@ -3,11 +3,10 @@ var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
 
 var socketPath = config.protocol + '://localhost:' + config.port;
-
-console.log("Socket Path: " + socketPath);
-
 var socket = io.connect(socketPath, {
-    reconnect: true
+    reconnect: true,
+    secure: true,
+    rejectUnauthorized : false
 });
 
 console.log("Asterisk configs:");

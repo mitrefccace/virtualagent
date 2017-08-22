@@ -42,7 +42,6 @@ require('../sockets')(io);
 /**
  * Connect to Asterisk
  */
-
 require('../asterisk');
 
 /**
