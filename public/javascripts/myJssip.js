@@ -4,7 +4,7 @@ var pc_config = "";
 var currentSession;
 var remoteStream = document.getElementById("remoteView");
 var selfStream = document.getElementById("selfView");
-var call_option_buttons = document.getElementById("call-option-buttons");
+//var call_option_buttons = document.getElementById("call-option-buttons");
 var mute_audio_button = document.getElementById("mute-audio");
 var hide_video_button = document.getElementById("hide-video");
 var mute_audio_icon = document.getElementById("mute-audio-icon");
@@ -86,7 +86,7 @@ function register_jssip(ws_server, my_sip_uri, sip_password, stunServer)
 		{
      		 //e.response = edit_response(e.response);
 			if(debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n"+ e.originator);
-			toggle_incall_buttons(true);
+			//toggle_incall_buttons(true);
 			start_self_video();
 		});
 	    currentSession.on('confirmed', function(e)
@@ -348,7 +348,7 @@ function remove_video(){
 	} 
 	navigator.mediaDevices.getUserMedia({ audio: false, video: false });
 
-	toggle_incall_buttons(false);
+	//toggle_incall_buttons(false);
 }
 
 //mutes self audio so remote cannot hear you
