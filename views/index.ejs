@@ -8,23 +8,21 @@
 
 <body>
 
-  <div id="call-option-buttons">
-    <div id="inner">
-      <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
-      <button id="btn-start-recording" type="button" onclick="record_call()"> Record </button>
-      <button id="btn-stop-recording" type="button" onclick="record_call()"> Stop Record </button>
-      <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> Mute </button>
-      <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> Hide </button>
-      <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> End </button>
-    </div>
-  </div>
+
+  <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
+  <button id="btn-start-recording" type="button" onclick="record_call()"> Record </button>
+  <button id="btn-stop-recording" type="button" onclick="record_call()"> Stop Record </button>
+  <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> Mute </button>
+  <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> Hide </button>
+  <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> End </button>
+
 
   <div class="vid-border">
     remote
     <video id="remoteView" width="320" height="240" autoplay></video>
   </div>
   <div class="vid-border">
-  self
+    self
     <video id="selfView" width="320" height="240" autoplay hidden></video>
   </div>
 
@@ -50,7 +48,7 @@
       socket.emit('register-virtualagent');
     }).on('registerJssip', function (data) {
       console.log('Registering JSSIP');
-      console.log(data.ws+"|"+data.sipUri+"|"+data.pw+"|"+ data.stun)
+      console.log(data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       console.log('newCall');
