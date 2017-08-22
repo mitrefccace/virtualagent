@@ -232,7 +232,9 @@ function accept_call()
 		//NOTE: needs to be both here and in the newRTCSession event listener because currentSession.connection is not established until after ua.answer() for incoming calls
 		if(currentSession.connection) currentSession.connection.ontrack=function(e)
 		{
-			if(debug) console.log("STARTING REMOTE VIDEO\ne.streams: " + e.streams + "\ne.streams[0]: " + e.streams[0]);
+			//if(debug) console.log("STARTING REMOTE VIDEO\ne.streams: " + e.streams + "\ne.streams[0]: " + e.streams[0]);
+			
+			console.log('ontrack:'+ JSON.stringify(e));
 			remoteStream.srcObject = e.streams[0];
 			remoteStream.play();
 		};
