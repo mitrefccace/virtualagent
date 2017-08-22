@@ -11,10 +11,10 @@ var socket = io.connect(socketPath, {
 });
 
 console.log("Asterisk configs:");
-console.log("port: " + config.asterisk.port);
-console.log("host: " + config.asterisk.host);
-console.log("user: " + config.asterisk.user);
-console.log("pass: " + config.asterisk.password);
+console.log("    port: " + config.asterisk.port);
+console.log("    host: " + config.asterisk.host);
+console.log("    user: " + config.asterisk.user);
+console.log("    pass: " + config.asterisk.password);
 
 
 var ami = new AsteriskManager(

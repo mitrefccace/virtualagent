@@ -7,17 +7,25 @@
 </head>
 
 <body>
-  <video id="remoteView" autoplay></video>
-  <video id="selfView" autoplay></video>
-  <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
-  <button id="btn-start-recording" type="button" onclick="record_call()"> Record </button>
-  <button id="btn-stop-recording" type="button" onclick="record_call()"> No </button>
+
+  <div class="vid-border">
+    remote
+    <video id="remoteView" width="320" height="240" autoplay></video>
+  </div>
+  <div class="vid-border">
+  self
+    <video id="selfView" width="320" height="240" autoplay></video>
+  </div>
+
 
   <div id="call-option-buttons">
     <div id="inner">
-      <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> <i id= "mute-audio-icon" class="call-btn-icon fa fa-microphone"></i> </button>
-      <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> <i class="call-btn-icon fa fa-video-camera"></i>  <div id= "hide-video-icon" class = "fa fa-close fa-close-style" style="display: none;"></div> <!-- hack for hide video button since there's no fa-icon for it. we overlay an x and hide and show it when needed--></button>
-      <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> <i class="call-btn-icon fa fa-phone fa-rotate-135"></i> </button>
+      <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
+      <button id="btn-start-recording" type="button" onclick="record_call()"> Record </button>
+      <button id="btn-stop-recording" type="button" onclick="record_call()"> Stop Record </button>
+      <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> Mute </button>
+      <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> Hide </button>
+      <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> End </button>
     </div>
   </div>
 
