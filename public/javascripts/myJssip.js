@@ -211,6 +211,7 @@ function onRemoteStreamAdded(event) {
 //answers an incoming call
 function accept_call()
 {
+	console.log("ICE Server: |"+ pc_config+"|")
 	if(currentSession) 
 	{
 		var options = {
