@@ -50,6 +50,7 @@
       socket.emit('register-virtualagent');
     }).on('registerJssip', function (data) {
       console.log('Registering JSSIP');
+      console.log(data.ws+"|"+data.sipUri+"|"+data.pw+"|"+ data.stun)
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       console.log('newCall');
@@ -68,11 +69,8 @@
   var videoElement = document.querySelector('#remoteView');
   console.log("HERE vid:  " + videoElement.id);
 
-  //var progressBar = document.querySelector('#progress-bar');
-  //var percentage = document.querySelector('#percentage');
 
   var recorder;
-  // reusable helpers
 
   // this function submits recorded blob to nodejs server
   function postFiles() {
@@ -91,8 +89,7 @@
       videoElement.play();
       videoElement.muted = false;
       videoElement.controls = true;
-      document.querySelector('#footer-h2').innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src +
-        '</a>';
+      //document.querySelector('#footer-h2').innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src +'</a>';
     });
 
     if (mediaStream) mediaStream.stop();
@@ -107,17 +104,6 @@
       }
     };
 
-    //Remove?
-    request.upload.onprogress = function (event) {
-      //progressBar.max = event.total;
-      //progressBar.value = event.loaded;
-      //progressBar.innerHTML = 'Upload Progress ' + Math.round(event.loaded / event.total * 100) + "%";
-    };
-    //Remove?
-    request.upload.onload = function () {
-      //percentage.style.display = 'none';
-      //progressBar.style.display = 'none';
-    };
     request.open('POST', url);
     console.log("URL is: " + url);
     var formData = new FormData();
