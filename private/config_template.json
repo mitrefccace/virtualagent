@@ -6,11 +6,11 @@
         "cert": ""
     },
     "mysql": {
-        "host": "172.21.1.105",
+        "host": "host ip",
         "port": 3306,
-        "user": "user1",
-        "password": "abc123",
-        "database": "agentdb_new"
+        "user": "user",
+        "password": "password",
+        "database": "database name"
     },
     "asterisk": {
         "port": 5038,
