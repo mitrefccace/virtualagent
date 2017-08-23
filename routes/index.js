@@ -35,6 +35,11 @@ router.post('/uploadFile', function (req, res) {
         }
       }
       */
+      var query =  '';
+      var args = [];
+      req.mysql(query, args, function(err, result){
+
+      });
       res.write('received upload: ' + files.file.name);
     }
     res.end();

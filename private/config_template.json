@@ -10,7 +10,8 @@
         "port": 3306,
         "user": "user",
         "password": "password",
-        "database": "database name"
+        "database": "database name",
+        "videomailtable": "tablename"
     },
     "asterisk": {
         "port": 5038,
