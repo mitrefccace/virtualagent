@@ -5,7 +5,13 @@
         "key": "",
         "cert": ""
     },
-    "mysql": "blah",
+    "mysql": {
+        "host": "172.21.1.105",
+        "port": 3306,
+        "user": "user1",
+        "password": "abc123",
+        "database": "agentdb_new"
+    },
     "asterisk": {
         "port": 5038,
         "host": "private ip",
