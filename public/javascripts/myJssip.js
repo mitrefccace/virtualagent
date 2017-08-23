@@ -288,7 +288,7 @@ function terminate_call() {
 		if (!currentSession.isEnded()) currentSession.terminate();
 	}
 	remove_video();
-	record_call();
+	upload_call();
 	// if(ua) ua.stop(); 
 }
 
@@ -548,7 +548,7 @@ function captureUserMedia(success_callback) {
 	});
 }
 // UI events handling
-btnStartRecording.onclick = function () { //LEFT OFF HERE left off here
+function record_call() { //LEFT OFF HERE left off here
 	btnStartRecording.disabled = true;
 
 	captureUserMedia(function (stream) {
@@ -568,7 +568,7 @@ btnStartRecording.onclick = function () { //LEFT OFF HERE left off here
 		btnStopRecording.disabled = false;
 	});
 };
-btnStopRecording.onclick = function () {
+function upload_call() {
 	btnStartRecording.disabled = false;
 	btnStopRecording.disabled = true;
 
