@@ -294,6 +294,7 @@ function RecordRTC(mediaStream, config) {
     }
 
     function setState(state) {
+        console.log('Recording State Change: was' + self.state + ", now "+ state);
         self.state = state;
 
         if (typeof self.onStateChanged.call === 'function') {

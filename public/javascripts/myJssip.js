@@ -488,6 +488,7 @@ var recorder;
 
 // this function submits recorded blob to nodejs server
 function postFiles() {
+	console.log('Post the file');
 	var blob = recorder.getBlob();
 	// getting unique identifier for the file name
 	var fileName = generateRandomString() + '.webm';
