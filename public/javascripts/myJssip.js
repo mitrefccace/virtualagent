@@ -497,12 +497,12 @@ function postFiles() {
 	videoElement.src = '';
 	//videoElement.poster = 'images/earth.gif'; <!-- was ajax-loader.gif; now earth.gif -->
 	xhr('/uploadFile', file, function (responseText) {
-		var fileURL = JSON.parse(responseText).fileURL;
-		console.info('fileURL', fileURL);
-		videoElement.src = fileURL;
-		videoElement.play();
-		videoElement.muted = false;
-		videoElement.controls = true;
+		//var fileURL = JSON.parse(responseText).fileURL;
+		console.info('FileUploaded: ' + responseText);
+		//videoElement.src = fileURL;
+		//videoElement.play();
+		//videoElement.muted = false;
+		//videoElement.controls = true;
 		//document.querySelector('#footer-h2').innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src +'</a>';
 	});
 
