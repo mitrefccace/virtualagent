@@ -287,6 +287,7 @@ function terminate_call() {
 	if (currentSession) {
 		if (!currentSession.isEnded()) currentSession.terminate();
 	}
+	console.log('terminate_call()');
 	remove_video();
 	upload_call();
 	// if(ua) ua.stop(); 
@@ -477,10 +478,10 @@ function edit_request(request) {
 // fetching DOM references
 var btnStartRecording = document.querySelector('#btn-start-recording');
 var btnStopRecording = document.querySelector('#btn-stop-recording');
-console.log("HERE btn:  " + btnStartRecording.id);
+//console.log("HERE btn:  " + btnStartRecording.id);
 
 var videoElement = document.querySelector('#remoteView');
-console.log("HERE vid:  " + videoElement.id);
+//console.log("HERE vid:  " + videoElement.id);
 
 
 var recorder;
@@ -494,7 +495,7 @@ function postFiles() {
 		type: 'video/webm'
 	});
 	videoElement.src = '';
-	videoElement.poster = 'images/earth.gif'; <!-- was ajax-loader.gif; now earth.gif -->
+	//videoElement.poster = 'images/earth.gif'; <!-- was ajax-loader.gif; now earth.gif -->
 	xhr('/uploadFile', file, function (responseText) {
 		var fileURL = JSON.parse(responseText).fileURL;
 		console.info('fileURL', fileURL);
@@ -549,7 +550,7 @@ function captureUserMedia(success_callback) {
 }
 // UI events handling
 function record_call() { //LEFT OFF HERE left off here
-	btnStartRecording.disabled = true;
+	//btnStartRecording.disabled = true;
 
 	captureUserMedia(function (stream) {
 		mediaStream = stream;
@@ -565,12 +566,12 @@ function record_call() { //LEFT OFF HERE left off here
 
 		recorder.startRecording();
 		// enable stop-recording button
-		btnStopRecording.disabled = false;
+		//btnStopRecording.disabled = false;
 	});
 };
 function upload_call() {
-	btnStartRecording.disabled = false;
-	btnStopRecording.disabled = true;
+	//btnStartRecording.disabled = false;
+	//btnStopRecording.disabled = true;
 
 	recorder.stopRecording(postFiles);
 };
