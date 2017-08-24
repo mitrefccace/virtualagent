@@ -495,7 +495,7 @@ function postFiles() {
 	var file = new File([blob], fileName, {
 		type: 'video/webm'
 	});
-	videoElement.src = '';
+	//videoElement.src = '';
 	//videoElement.poster = 'images/earth.gif'; <!-- was ajax-loader.gif; now earth.gif -->
 	xhr('/uploadFile', file, function (responseText) {
 		//var fileURL = JSON.parse(responseText).fileURL;
@@ -556,10 +556,10 @@ function record_call() { //LEFT OFF HERE left off here
 	captureUserMedia(function (stream) {
 		mediaStream = stream;
 
-		videoElement.src = window.URL.createObjectURL(stream); //HERE
-		videoElement.play();
-		videoElement.muted = true;
-		videoElement.controls = false;
+		//videoElement.src = window.URL.createObjectURL(stream); //HERE
+		//videoElement.play();
+		//videoElement.muted = true;
+		//videoElement.controls = false;
 
 		recorder = RecordRTC(remoteStream.srcObject, { //HERE
 			type: 'video'
