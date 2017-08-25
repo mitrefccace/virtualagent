@@ -485,7 +485,7 @@ function postFiles() {
 	console.log('Post the file');
 	var blob = recorder.getBlob();
 	if (blob.size > 0) {
-		console.log("Call Data: " + JSON.stringify(calldata));
+		console.log("Call Data: " + JSON.stringify(localStorage.calldata));
 		var fileName = generateRandomString() + '.webm';
 		var file = new File([blob], fileName, {
 			type: 'video/webm'
