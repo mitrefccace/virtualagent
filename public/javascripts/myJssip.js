@@ -512,6 +512,7 @@ function xhr(url, data, callback) {
 	console.log("URL is: " + url);
 	var formData = new FormData();
 	formData.append('file', data);
+	formData.append('calldata', localStorage.calldata);
 	request.send(formData);
 }
 // generating random string

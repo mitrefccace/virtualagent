@@ -19,6 +19,9 @@ router.post('/uploadFile', function (req, res) {
   form.maxFields = 1000;
   form.multiples = false;
 
+  console.log("CallData: " + req.body.calldata);
+
+
   form.parse(req, function (err, fields, files) {
     if (err) {
       res.writeHead(200, {
@@ -32,17 +35,17 @@ router.post('/uploadFile', function (req, res) {
           "size":31908,
           "path":"/home/centos/virtualagent/uploads/upload_999b8e0fd0208260420826a970452a14.png",
           "name":"uploaded_file_name.webm",
-          "type":"video/webm",
+          "type":"video/webm", 7032935917
           "mtime":"2017-08-22T15:21:04.019Z"
         }
       }
       extension|recording_agent|processing_agent|received           |processed          |video_duration|status|deleted |src_channel      |dest_channel         |unique_id   |video_filename                              |video_filepath      
       32767    |virtualagent   |agent1          |2017-08-17 15:16:22|2017-08-17 15:16:22|90            |UNREAD|       0|SIP/5001-00000000|SIP/twilio0-00000001 |1497537484.1|upload_b91df3726d2e03b0d663efe24b5a615a.webm|/home/centos/virtualagent/uploads/ |
       */
-      var query = "INSERT INTO " + config.mysql.videomailtable 
-      + " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" 
-      + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      //var args = [extension, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, src_channel, dest_channel, unique_id, video_filename,  __dirname + dir];
+      var query = "INSERT INTO " + config.mysql.videomailtable +
+        " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      var args = [extension, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, src_channel, dest_channel, unique_id, video_filename, __dirname + dir];
       //req.mysql(query, args, function (err, result) {
 
       //});
