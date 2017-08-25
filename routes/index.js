@@ -81,11 +81,12 @@ router.post('/uploadFile', function (req, res) {
         } else {
           console.log('File Uploaded: ' + JSON.stringify(files));
           res.write('received upload: ' + files.file.name);
+          res.end();
         }
       });
 
     }
-    res.end();
+    
   });
 });
 
