@@ -19,7 +19,7 @@ router.post('/uploadFile', function (req, res) {
   form.maxFields = 1000;
   form.multiples = false;
 
-  console.log("CallData: " + JSON.stringify(req.body));
+  
 
 
   form.parse(req, function (err, fields, files) {
@@ -29,6 +29,8 @@ router.post('/uploadFile', function (req, res) {
       });
       res.write('an error occurred');
     } else {
+
+      console.log("CallData: " + feilds);
       /* Example files
       {
         "file":{
@@ -45,7 +47,7 @@ router.post('/uploadFile', function (req, res) {
       var query = "INSERT INTO " + config.mysql.videomailtable +
         " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      v//ar args = [extension, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, src_channel, dest_channel, unique_id, video_filename, __dirname + dir];
+      //var args = [extension, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, src_channel, dest_channel, unique_id, video_filename, __dirname + dir];
       //req.mysql(query, args, function (err, result) {
 
       //});
