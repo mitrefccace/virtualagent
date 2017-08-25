@@ -19,7 +19,7 @@ router.post('/uploadFile', function (req, res) {
   form.maxFields = 1000;
   form.multiples = false;
 
-  
+
 
 
   form.parse(req, function (err, fields, files) {
@@ -34,8 +34,25 @@ router.post('/uploadFile', function (req, res) {
 
       var calldata = JSON.parse(fields.calldata);
       console.log("channel: " + calldata.channel);
-   
+
       /* Example files
+        \"event\":\"Newstate\",
+        \"privilege\":\"call,all\",
+        \"channel\":\"PJSIP/80001-000000e4\",
+        \"channelstate\":\"5\",
+        \"channelstatedesc\":\"Ringing\",
+        \"calleridnum\":\"575795\",
+        \"calleridname\":\"<unknown>\",
+        \"connectedlinenum\":\"90003\",
+        \"connectedlinename\":\"<unknown>\",
+        \"language\":\"en\",
+        \"accountcode\":\"\",
+        \"context\":\"from-internal\",
+        \"exten\":\"575795\",
+        \"priority\":\"1\",
+        \"uniqueid\":\"1503683575.385\",
+        \"linkedid\":\"1503683574.384\"
+
       {
         "file":{
           "size":31908,
@@ -45,18 +62,28 @@ router.post('/uploadFile', function (req, res) {
           "mtime":"2017-08-22T15:21:04.019Z"
         }
       }
+
+
+      
       extension|recording_agent|processing_agent|received           |processed          |video_duration|status|deleted |src_channel      |dest_channel         |unique_id   |video_filename                              |video_filepath      
       32767    |virtualagent   |agent1          |2017-08-17 15:16:22|2017-08-17 15:16:22|90            |UNREAD|       0|SIP/5001-00000000|SIP/twilio0-00000001 |1497537484.1|upload_b91df3726d2e03b0d663efe24b5a615a.webm|/home/centos/virtualagent/uploads/ |
       */
+      var fullpath = files.file.path
+      var path = fullpath.substring(0, fullpath.lastIndexOf("/") + 1);
+      var filename = fullpath.substring(fullpath.lastIndexOf("/") + 1);
       var query = "INSERT INTO " + config.mysql.videomailtable +
         " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      //var args = [extension, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, src_channel, dest_channel, unique_id, video_filename, __dirname + dir];
-      //req.mysql(query, args, function (err, result) {
+      var args = [calldata.exten, 'virtualagent', null, new Date(), null, 90, 'UNREAD', 0, null, calldata.channel, calldata.uniqueid, filename, path];
+      req.mysql(query, args, function (err, result) {
+        if (err) {
+          console.log("Mysql Error on insert: " + err)
+        } else {
+          console.log('File Uploaded: ' + JSON.stringify(files));
+          res.write('received upload: ' + files.file.name);
+        }
+      });
 
-      //});
-      console.log('File Uploaded: ' + JSON.stringify(files));
-      res.write('received upload: ' + files.file.name);
     }
     res.end();
   });
