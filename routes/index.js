@@ -30,7 +30,7 @@ router.post('/uploadFile', function (req, res) {
       res.write('an error occurred');
     } else {
 
-      console.log("CallData: " + fields);
+      console.log("CallData: " + JSON.stringify(fields));
       /* Example files
       {
         "file":{
