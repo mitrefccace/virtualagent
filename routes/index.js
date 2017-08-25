@@ -75,7 +75,7 @@ router.post('/uploadFile', function (req, res) {
         " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
       var args = [calldata.exten, 'virtualagent', null, new Date(), null, 90, 'UNREAD', 0, null, calldata.channel, calldata.uniqueid, filename, path];
-      req.mysql(query, args, function (err, result) {
+      req.mysql.query(query, args, function (err, result) {
         if (err) {
           console.log("Mysql Error on insert: " + err)
         } else {
