@@ -1,0 +1,8 @@
+{
+	"apps": [{
+			"name": "Virtual Agent: 8005",
+			"script": "./bin/wwww",
+			"error_file": "./logs/virtual_agent_error.log",
+			"out_file": "./logs/virtual_agent.log"
+		}]
+}
