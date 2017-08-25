@@ -474,15 +474,12 @@ function edit_request(request) {
 
 	return new_request;
 }
+
+
 //Record video code:
-// fetching DOM references
 var btnStartRecording = document.querySelector('#btn-start-recording');
 var btnStopRecording = document.querySelector('#btn-stop-recording');
-//console.log("HERE btn:  " + btnStartRecording.id);
-
 var videoElement = document.querySelector('#remoteView');
-//console.log("HERE vid:  " + videoElement.id);
-
 
 var recorder;
 
@@ -490,24 +487,17 @@ var recorder;
 function postFiles() {
 	console.log('Post the file');
 	var blob = recorder.getBlob();
-	// getting unique identifier for the file name
+
 	var fileName = generateRandomString() + '.webm';
 	var file = new File([blob], fileName, {
 		type: 'video/webm'
 	});
-	//videoElement.src = '';
-	//videoElement.poster = 'images/earth.gif'; <!-- was ajax-loader.gif; now earth.gif -->
+
 	xhr('/uploadFile', file, function (responseText) {
-		//var fileURL = JSON.parse(responseText).fileURL;
 		console.info('FileUploaded: ' + responseText);
-		//videoElement.src = fileURL;
-		//videoElement.play();
-		//videoElement.muted = false;
-		//videoElement.controls = true;
-		//document.querySelector('#footer-h2').innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src +'</a>';
 	});
 
-	if (mediaStream) mediaStream.stop();
+	//if (mediaStream) mediaStream.stop();
 }
 
 // XHR2/FormData
@@ -536,46 +526,31 @@ function generateRandomString() {
 		return (Math.random() * new Date().getTime()).toString(36).replace(/\./g, '');
 	}
 }
-var mediaStream = null;
+//var mediaStream = null;
 // reusable getUserMedia
+/*
 function captureUserMedia(success_callback) {
 	var session = {
 		audio: true,
 		video: true
 	};
-
 	navigator.getUserMedia(session, success_callback, function (error) {
 		alert('Unable to capture your camera. Please check console logs.');
 		console.error(error);
 	});
 }
+*/
 // UI events handling
-function record_call() { //LEFT OFF HERE left off here
-	//btnStartRecording.disabled = true;
-
-	captureUserMedia(function (stream) {
-		mediaStream = stream;
-
-		//videoElement.src = window.URL.createObjectURL(stream); //HERE
-		//videoElement.play();
-		//videoElement.muted = true;
-		//videoElement.controls = false;
-
-		recorder = RecordRTC(remoteStream.srcObject, { //HERE
+function record_call() { 
+	//captureUserMedia(function (stream) {
+	//	mediaStream = stream;
+		recorder = RecordRTC(remoteStream.srcObject, { 
 			type: 'video'
 		});
 
 		recorder.startRecording();
-		// enable stop-recording button
-		//btnStopRecording.disabled = false;
-	});
+	//});
 };
 function upload_call() {
-	//btnStartRecording.disabled = false;
-	//btnStopRecording.disabled = true;
-
 	recorder.stopRecording(postFiles);
-};
-window.onbeforeunload = function () {
-	//startRecording.disabled = false;
 };
