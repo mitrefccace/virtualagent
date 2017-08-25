@@ -19,7 +19,7 @@ function Socket(io) {
 
         socket.on('newCall', (data) => {
             console.log("Firing newCall");
-            io.emit('newCall', "ANSWER");
+            io.emit('newCall', data);
         });
     });
 };

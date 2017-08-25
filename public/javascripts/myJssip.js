@@ -477,29 +477,28 @@ function edit_request(request) {
 
 
 //Record video code:
-var btnStartRecording = document.querySelector('#btn-start-recording');
-var btnStopRecording = document.querySelector('#btn-stop-recording');
 var videoElement = document.querySelector('#remoteView');
 
 var recorder;
-
 // this function submits recorded blob to nodejs server
 function postFiles() {
 	console.log('Post the file');
 	var blob = recorder.getBlob();
+	if (blob.size > 0) {
+		console.log("Call Data: " + JSON.stringify(calldata));
+		var fileName = generateRandomString() + '.webm';
+		var file = new File([blob], fileName, {
+			type: 'video/webm'
+		});
 
-	var fileName = generateRandomString() + '.webm';
-	var file = new File([blob], fileName, {
-		type: 'video/webm'
-	});
+		xhr('/uploadFile', file, function (responseText) {
+			console.info('FileUploaded: ' + responseText);
+		});
+	} else {
+		console.log("no data in video record");
+	}
 
-	xhr('/uploadFile', file, function (responseText) {
-		console.info('FileUploaded: ' + responseText);
-	});
-
-	//if (mediaStream) mediaStream.stop();
 }
-
 // XHR2/FormData
 function xhr(url, data, callback) {
 	var request = new XMLHttpRequest();
@@ -526,31 +525,14 @@ function generateRandomString() {
 		return (Math.random() * new Date().getTime()).toString(36).replace(/\./g, '');
 	}
 }
-//var mediaStream = null;
-// reusable getUserMedia
-/*
-function captureUserMedia(success_callback) {
-	var session = {
-		audio: true,
-		video: true
-	};
-	navigator.getUserMedia(session, success_callback, function (error) {
-		alert('Unable to capture your camera. Please check console logs.');
-		console.error(error);
-	});
-}
-*/
-// UI events handling
-function record_call() { 
-	//captureUserMedia(function (stream) {
-	//	mediaStream = stream;
-		recorder = RecordRTC(remoteStream.srcObject, { 
-			type: 'video'
-		});
 
-		recorder.startRecording();
-	//});
+function record_call() {
+	recorder = RecordRTC(remoteStream.srcObject, {
+		type: 'video'
+	});
+	recorder.startRecording();
 };
+
 function upload_call() {
 	recorder.stopRecording(postFiles);
 };

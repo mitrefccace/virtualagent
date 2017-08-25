@@ -41,7 +41,7 @@
 <script src='/socket.io/socket.io.js'></script>
 <script type="text/javascript">
   $(document).ready(function () {
-
+    var calldata = '';
     var socket = io();
     socket.on('connect', function (data) {
       console.log('Connected to socket.io');
@@ -51,6 +51,7 @@
       console.log(data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
+      calldata = data;
       console.log('newCall');
       accept_call();
     }).on('callEnd', function (data) {
