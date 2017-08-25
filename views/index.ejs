@@ -51,7 +51,7 @@
       console.log(data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
-      localStorage.calldata = data;
+      localStorage.calldata = JSON.stringify(data);
       console.log('newCall');
       accept_call();
     }).on('callEnd', function (data) {
