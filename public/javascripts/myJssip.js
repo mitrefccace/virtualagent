@@ -535,5 +535,6 @@ function record_call() {
 };
 
 function upload_call() {
-	recorder.stopRecording(postFiles);
+	if(typeof recorder != 'undefined')
+		recorder.stopRecording(postFiles);
 };
