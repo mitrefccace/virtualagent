@@ -9,6 +9,9 @@ var hide_video_button = document.getElementById("hide-video");
 var mute_audio_icon = document.getElementById("mute-audio-icon");
 var hide_video_icon = document.getElementById("hide-video-icon");
 var hold_button = document.getElementById("hold-call");
+
+var startTime, endTime, totalTime;
+
 var debug = false; //console logs event info if true
 var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
 
@@ -513,6 +516,7 @@ function xhr(url, data, callback) {
 	var formData = new FormData();
 	formData.append('file', data);
 	formData.append('calldata', localStorage.calldata);
+	formData.append('callTime', totalTime);
 	request.send(formData);
 }
 // generating random string
@@ -538,3 +542,18 @@ function upload_call() {
 	if(typeof recorder != 'undefined')
 		recorder.stopRecording(postFiles);
 };
+
+function start() {
+  startTime = new Date();
+};
+
+function end() {
+  endTime = new Date();
+  var timeDiff = endTime - startTime; //in ms
+  // strip the ms
+  timeDiff /= 1000;
+
+  // get seconds
+  totalTime = Math.round(timeDiff % 60);
+  console.log(totalTime + " sec");
+}
