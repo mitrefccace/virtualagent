@@ -215,6 +215,7 @@ function accept_call() {
 			remoteStream.srcObject = e.streams[0];
 			remoteStream.play();
 			record_call();
+			startTimer();
 		};
 	}
 }
@@ -291,6 +292,7 @@ function terminate_call() {
 		if (!currentSession.isEnded()) currentSession.terminate();
 	}
 	console.log('terminate_call()');
+	endTimer();
 	remove_video();
 	upload_call();
 	// if(ua) ua.stop(); 
@@ -543,11 +545,11 @@ function upload_call() {
 		recorder.stopRecording(postFiles);
 };
 
-function start() {
+function startTimer() {
   startTime = new Date();
 };
 
-function end() {
+function endTimer() {
   endTime = new Date();
   var timeDiff = endTime - startTime; //in ms
   // strip the ms
