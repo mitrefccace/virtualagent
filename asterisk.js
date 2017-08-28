@@ -72,13 +72,13 @@ ami.on('newstate', function (evt) {
         console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
         socket.emit("newCall", evt);
         pendingHangup = setTimeout(function () {
+            console.log("Forcing Hangup");
             ami.action({
                 "Action": "Hangup",
                 "ActionID": evt.uniqueid,
                 "Channel": evt.channel,
                 "Cause": 1
             }, function (err, res) {});
-
         }, config.videomail.maxrecordsecs * 1000);
 
     }
