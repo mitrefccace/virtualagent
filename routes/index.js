@@ -69,8 +69,7 @@ router.post('/uploadFile', function (req, res) {
       32767    |virtualagent   |agent1          |2017-08-17 15:16:22|2017-08-17 15:16:22|90            |UNREAD|       0|SIP/5001-00000000|SIP/twilio0-00000001 |1497537484.1|upload_b91df3726d2e03b0d663efe24b5a615a.webm|/home/centos/virtualagent/uploads/ |
       */
       var fullpath = files.file.path
-      var ext = parseInt(calldata.connectedlinenum) || 0;
-      if(ext)
+      var ext = calldata.connectedlinenum;
       var path = fullpath.substring(0, fullpath.lastIndexOf("/") + 1);
       var filename = fullpath.substring(fullpath.lastIndexOf("/") + 1);
       var query = "INSERT INTO " + config.mysql.videomailtable +
