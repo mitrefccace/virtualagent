@@ -5,6 +5,10 @@
         "key": "",
         "cert": ""
     },
+    "videomail": {
+        "number": "111111",
+        "maxrecordsecs": 90
+    },
     "mysql": {
         "host": "host ip",
         "port": 3306,

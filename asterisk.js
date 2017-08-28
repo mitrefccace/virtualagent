@@ -1,12 +1,12 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
-
+var pendingHangup = null;
 var socketPath = config.protocol + '://localhost:' + config.port;
 var socket = io.connect(socketPath, {
     reconnect: true,
     secure: true,
-    rejectUnauthorized : false
+    rejectUnauthorized: false
 });
 
 console.log("Asterisk configs:");
@@ -59,18 +59,28 @@ ami.on('dialend', function (evt) {
 });
 
 ami.on('hangup', function (evt) {
-    //console.log('\nIncoming Hangup event');
+    console.log('\nIncoming Hangup event');
     //console.log(JSON.stringify(evt));
+    clearTimeout(pendingHangup);
 });
 
 ami.on('newstate', function (evt) {
     console.log('\nIncoming Newstate event');
     //console.log(JSON.stringify(evt));
-    
+
     if (evt.channelstate === "5") {
         console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
         socket.emit("newCall", evt);
-        
+        pendingHangup = setTimeout(function () {
+            ami.action({
+                "Action": "Hangup",
+                "ActionID": evt.uniqueid,
+                "Channel": evt.channel,
+                "Cause": 1
+            }, function (err, res) {});
+
+        }, config.videomail.maxrecordsecs * 1000);
+
     }
 });
 
