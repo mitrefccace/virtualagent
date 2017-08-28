@@ -204,6 +204,7 @@ function accept_call() {
 			}
 		};
 		currentSession.answer(options);
+		startTimer();
 
 
 		//event listener for remote video. Adds to html page when ready. 
@@ -215,7 +216,6 @@ function accept_call() {
 			remoteStream.srcObject = e.streams[0];
 			remoteStream.play();
 			record_call();
-			startTimer();
 		};
 	}
 }
@@ -541,21 +541,21 @@ function record_call() {
 };
 
 function upload_call() {
-	if(typeof recorder != 'undefined')
+	if (typeof recorder != 'undefined')
 		recorder.stopRecording(postFiles);
 };
 
 function startTimer() {
-  startTime = new Date();
+	startTime = new Date();
 };
 
 function endTimer() {
-  endTime = new Date();
-  var timeDiff = endTime - startTime; //in ms
-  // strip the ms
-  timeDiff /= 1000;
+	endTime = new Date();
+	var timeDiff = endTime - startTime; //in ms
+	// strip the ms
+	timeDiff /= 1000;
 
-  // get seconds
-  totalTime = Math.round(timeDiff % 60);
-  console.log(totalTime + " sec");
+	// get seconds
+	totalTime = Math.round(timeDiff % 60);
+	console.log(totalTime + " sec");
 }
