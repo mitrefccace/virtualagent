@@ -556,6 +556,6 @@ function endTimer() {
 	timeDiff /= 1000;
 
 	// get seconds
-	totalTime = Math.round(timeDiff % 60);
+	totalTime = Math.round(timeDiff);
 	console.log(totalTime + " sec");
 }
