@@ -10,7 +10,7 @@ var mute_audio_icon = document.getElementById("mute-audio-icon");
 var hide_video_icon = document.getElementById("hide-video-icon");
 var hold_button = document.getElementById("hold-call");
 
-var startTime, endTime, totalTime;
+var startTime, endTime, totalTime, remotePlayPromise, selfPlayPromise;
 
 var debug = false; //console logs event info if true
 var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
@@ -149,7 +149,7 @@ function register_jssip(ws_server, my_sip_uri, sip_password, stunServer) {
 		if (currentSession.connection) currentSession.connection.ontrack = function (e) {
 			if (debug) console.log("STARTING REMOTE VIDEO\ne.streams: " + e.streams + "\ne.streams[0]: " + e.streams[0]);
 			remoteStream.srcObject = e.streams[0];
-			remoteStream.play();
+			remotePlayPromise = remoteStream.play();
 		};
 
 	});
@@ -214,7 +214,7 @@ function accept_call() {
 
 			console.log('ontrack:' + JSON.stringify(e));
 			remoteStream.srcObject = e.streams[0];
-			remoteStream.play();
+			remotePlayPromise = remoteStream.play();
 			record_call();
 		};
 	}
@@ -269,7 +269,7 @@ function start_self_video() {
 				}
 				window.self_stream = stream;
 				selfStream.onloadedmetadata = function (e) {
-					selfStream.play();
+				selfPlayPromise = selfStream.play();
 				};
 			})
 			.catch(function (err) {
@@ -307,10 +307,26 @@ function unregister_jssip() {
 //removes both the remote and self video streams and replaces it with default image. stops allowing camera to be active. also hides call_options_buttons.
 function remove_video() {
 	selfStream.setAttribute("hidden", true);
-	selfStream.pause();
-	remoteStream.pause();
-	selfStream.src = "";
-	remoteView.src = "";
+	/*
+		selfStream.pause();
+		remoteStream.pause();
+		selfStream.src = "";
+		remoteView.src = "";
+	*/
+	if (remotePlayPromise !== undefined) {
+		remotePlayPromise.then(_ => {
+				remoteStream.pause();
+				remoteStream.src = "";
+			})
+			.catch(error => {});
+	}
+	if (selfPlayPromise !== undefined) {
+		selfPlayPromise.then(_ => {
+				selfStream.pause();
+				selfStream.src = "";
+			})
+			.catch(error => {});
+	}
 
 	//stops remote track
 	if (remoteView.srcObject) {
@@ -326,12 +342,11 @@ function remove_video() {
 			if (window.self_stream.getVideoTracks()[0]) window.self_stream.getVideoTracks()[0].stop();
 		}
 	}
+
 	navigator.mediaDevices.getUserMedia({
 		audio: false,
 		video: false
 	});
-
-	//toggle_incall_buttons(false);
 }
 
 //mutes self audio so remote cannot hear you
