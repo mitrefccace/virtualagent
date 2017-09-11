@@ -61,7 +61,7 @@ ami.on('dialend', function (evt) {
 ami.on('hangup', function (evt) {
     console.log('\nIncoming Hangup event');
     //console.log(JSON.stringify(evt));
-    clearTimeout(pendingHangup);
+    //clearTimeout(pendingHangup);
 });
 
 ami.on('newstate', function (evt) {
@@ -71,6 +71,8 @@ ami.on('newstate', function (evt) {
     if (evt.channelstate === "5") {
         console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
         socket.emit("newCall", evt);
+
+        /* //TODO: fix this to only hang up calls answered by 80001
         pendingHangup = setTimeout(function () {
             console.log("Forcing Hangup");
             ami.action({
@@ -80,6 +82,7 @@ ami.on('newstate', function (evt) {
                 "Cause": 1
             }, function (err, res) {});
         }, config.videomail.maxrecordsecs * 1000);
+        */
 
     }
 });
