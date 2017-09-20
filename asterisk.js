@@ -1,6 +1,10 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
+
+
+var virtualAgents = [];
+
 var pendingHangup = null;
 var socketPath = config.protocol + '://localhost:' + config.port;
 var socket = io.connect(socketPath, {
@@ -32,68 +36,75 @@ setTimeout(() => {
 
 ami.on('connect', function (evt) {
     console.log('Connected to Asterisk');
-
-    ami.action({
-        "Action": "QueueAdd",
-        "Interface": "PJSIP/80001",
-        "Paused": "false",
-        "Queue": "MailQueue"
-    }, function (err, res) {});
-
-
-
 });
-
-//socket.emit("newCall", data);
-
-/*
-ami.on('managerevent', function (evt) {
-    console.log(JSON.stringify(evt));
-
-});
-*/
 
 ami.on('dialend', function (evt) {
-    //console.log('\nIncoming DialEnd event');
-    //console.log(JSON.stringify(evt));
+    console.log('\nIncoming DialEnd event');
 });
 
 ami.on('hangup', function (evt) {
     console.log('\nIncoming Hangup event');
-    //console.log(JSON.stringify(evt));
-    //clearTimeout(pendingHangup);
 });
 
 ami.on('newstate', function (evt) {
     console.log('\nIncoming Newstate event');
-    //console.log(JSON.stringify(evt));
-
     if (evt.channelstate === "5") {
-        console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
-        socket.emit("newCall", evt);
+        
+        var extString = evt.channel;
+        var extension = extString.split(/[\/,-]/)[1];
+        console.log("Incoming call for extension: " + extension);
+        
+        if (virtualAgents.indexOf(extension) > -1) {
+            
+            console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
+            socket.emit("newCall", extension);
+            
+            setTimeout(function () {
+                ami.action({
+                    "Action": "Hangup",
+                    "ActionID": evt.uniqueid,
+                    "Channel": evt.channel,
+                    "Cause": 1
+                }, function (err, res) {});
+            }, config.videomail.maxrecordsecs * 1000);
 
-        /* //TODO: fix this to only hang up calls answered by 80001
-        pendingHangup = setTimeout(function () {
-            console.log("Forcing Hangup");
-            ami.action({
-                "Action": "Hangup",
-                "ActionID": evt.uniqueid,
-                "Channel": evt.channel,
-                "Cause": 1
-            }, function (err, res) {});
-        }, config.videomail.maxrecordsecs * 1000);
-        */
-
+        }
     }
 });
 
-function sendAmiAction(obj) {
-    ami.action(obj, function (err, res) {
-        if (err) {
-            // logger.error('AMI Action error ' + err);
-            console.log('AMI Action error ' + JSON.stringify(err));
+
+/////////////////////////////////////
+//      Socket Event Listeners     //
+/////////////////////////////////////
+
+socket.on('connect', () => {
+    
+    // Register with the Socket to join the AMI Listener Room
+    socket.emit('registerAMIListener');
+}).on('QueueAdd', (data) => {
+
+    // Add the extension to the virtualAgents Array if it doesn't exist
+    if (virtualAgents.indexOf(ext) == -1)
+        virtualAgents.push(data.ext)
+
+    ami.action({
+        "Action": "QueueAdd",
+        "Interface": "PJSIP/" + data.ext,
+        "Paused": "false",
+        "Queue": "MailQueue"
+    }, function (err, res) {});
+}).on('QueueRemove', (data) => {
+    
+    // Delete from virtualAgent Array
+    for (var i = virtualAgents.length - 1; i >= 0; i--) {
+        if (virtualAgents[i] === data.ext) {
+            virtualAgents.splice(i, 1);
         }
+    }
 
-    });
-
-}
+    ami.action({
+        "Action": "QueueRemove",
+        "Interface": "PJSIP/" + data.ext,
+        "Queue": "MailQueue"
+    }, function (err, res) {});
+});

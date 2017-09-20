@@ -45,7 +45,7 @@
     var socket = io();
     socket.on('connect', function (data) {
       console.log('Connected to socket.io');
-      socket.emit('register-virtualagent');
+      socket.emit('register-virtualagent', '80001');
     }).on('registerJssip', function (data) {
       console.log('Registering JSSIP');
       console.log(data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
