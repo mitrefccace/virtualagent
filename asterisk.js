@@ -57,7 +57,7 @@ ami.on('newstate', function (evt) {
         if (virtualAgents.indexOf(extension) > -1) {
             
             console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
-            socket.emit("newCall", extension);
+            socket.emit("newCall", {"extension":extension, "evt": evt});
             
             setTimeout(function () {
                 ami.action({

@@ -23,9 +23,9 @@ function Socket(io) {
             socket.join(amiListener);
         });
 
-        socket.on('newCall', (extension) => {
-            console.log("Firing newCall to " + extension);
-            io.to(extension).emit('newCall');
+        socket.on('newCall', (data) => {
+            console.log("Firing newCall to " + data.extension);
+            io.to(data.extension).emit('newCall', data.evt);
         });
     });
 };
