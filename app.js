@@ -1,27 +1,27 @@
 var config = require('./private/config.json');
+var decode = require('./decode');
 var express = require('express');
 var path = require('path');
 var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var index = require('./routes/index');
 
 var app = express();
 
 // Create MySQL connection and connect to the database
 var connection = mysql.createConnection({
-  host: config.mysql.host,
-  port: config.mysql.port,
-  user: config.mysql.user,
-  password: config.mysql.password,
-  database: config.mysql.database
+  host: decode(config.mysql.host),
+  port: decode(config.mysql.port),
+  user: decode(config.mysql.user),
+  password: decode(config.mysql.password),
+  database: decode(config.mysql.database)
 });
 
 connection.connect(function (err) {
   if (err) {
     console.log("MySQL Connection Error");
-    process.exit(1);
+    process.exit(1); // Exit on MySQL error
   } else {
     console.log("Connected to MySQL");
   }

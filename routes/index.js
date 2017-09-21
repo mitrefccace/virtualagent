@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
   res.render('index');
 });
 
-/* GET home page. */
+/* GET Virtual Agent page. /80000 - /80005 */
 router.get('/8000+[0-5]', function (req, res, next) {
   var vaExt = (req.path).slice(1);
   res.render('virtual_agent', {
@@ -15,6 +15,7 @@ router.get('/8000+[0-5]', function (req, res, next) {
   });
 });
 
+// upload recording web.m file
 router.post('/uploadFile', function (req, res) {
   console.log('/uploadFile Called');
   var formidable = require('formidable');

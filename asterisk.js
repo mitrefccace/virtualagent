@@ -1,12 +1,13 @@
 var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
+var decode = require('./decode');
 
 // Array for keeping track of which Virtual Agents are registered.
 var virtualAgents = [];
 
-var pendingHangup = null;
-var socketPath = config.protocol + '://localhost:' + config.port;
+// Socket for communications to virtual agent
+var socketPath = decode(config.protocol) + '://localhost:' + decode(config.port);
 var socket = io.connect(socketPath, {
     reconnect: true,
     secure: true,
@@ -14,17 +15,17 @@ var socket = io.connect(socketPath, {
 });
 
 console.log("Asterisk configs:");
-console.log("    port: " + config.asterisk.port);
-console.log("    host: " + config.asterisk.host);
-console.log("    user: " + config.asterisk.user);
-console.log("    pass: " + config.asterisk.password);
+console.log("    port: " + decode(config.asterisk.port));
+console.log("    host: " + decode(config.asterisk.host));
+console.log("    user: " + decode(config.asterisk.user));
+console.log("    pass: " + decode(config.asterisk.amipw));
 
 
 var ami = new AsteriskManager(
-    config.asterisk.port,
-    config.asterisk.host,
-    config.asterisk.user,
-    config.asterisk.password,
+    decode(config.asterisk.port),
+    decode(config.asterisk.host),
+    decode(config.asterisk.user),
+    decode(config.asterisk.password),
     true);
 
 ami.keepConnected();
@@ -61,7 +62,7 @@ ami.on('newstate', function (evt) {
                     "Channel": evt.channel,
                     "Cause": 1
                 }, function (err, res) {});
-            }, config.videomail.maxrecordsecs * 1000);
+            }, parseInt(decode(config.videomail.maxrecordsecs)) * 1000);
 
         }
     }

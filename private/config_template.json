@@ -21,6 +21,9 @@
         "port": 5038,
         "host": "private ip",
         "user": "username",
-        "password": "password"
+        "amipw": "password",
+        "fqdn": "domain.name.com",
+        "extpw": "password for extensions",
+        "stun": "stun:stun.server.com:3478"
     }
 }

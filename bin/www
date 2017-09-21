@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var config = require('../private/config.json');
+var decode = require('../decode');
 var app = require('../app');
 var debug = require('debug')('virtualagent:server');
 var https = require('https');
@@ -15,17 +16,17 @@ var fs = require('fs');
  * Get port from environment and store in Express.
  */
 
-var port = config.port;
+var port = decode(config.port);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-if (config.protocol === "https") {
+if (decode(config.protocol) === "https") {
   console.log("https");
   var credentials = {
-    key: fs.readFileSync(config.ssl.key),
-    cert: fs.readFileSync(config.ssl.cert)
+    key: fs.readFileSync(decode(config.ssl.key)),
+    cert: fs.readFileSync(decode(config.ssl.cert))
   };
   var server = https.createServer(credentials, app);
 } else {
