@@ -2,7 +2,7 @@ var config = require('./private/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
 
-
+// Array for keeping track of which Virtual Agents are registered.
 var virtualAgents = [];
 
 var pendingHangup = null;
@@ -38,27 +38,22 @@ ami.on('connect', function (evt) {
     console.log('Connected to Asterisk');
 });
 
-ami.on('dialend', function (evt) {
-    console.log('\nIncoming DialEnd event');
-});
-
-ami.on('hangup', function (evt) {
-    console.log('\nIncoming Hangup event');
-});
-
 ami.on('newstate', function (evt) {
     console.log('\nIncoming Newstate event');
     if (evt.channelstate === "5") {
-        
+
+        // Get the extension of the ringing line        
         var extString = evt.channel;
         var extension = extString.split(/[\/,-]/)[1];
-        console.log("Incoming call for extension: " + extension);
         
+        // Check if extension belongs to a registered Virtual Agent, else ignore the call
         if (virtualAgents.indexOf(extension) > -1) {
+            console.log("##### INCOMING CALL RINGING FOR " + extension);
             
-            console.log("##### INCOMING CALL RINGING, INSERT SOCKET.IO EMIT HERE");
+            // Emit newCall event for virtual agent to answer the call
             socket.emit("newCall", {"extension":extension, "evt": evt});
-            
+
+            // Force hang up after max record seconds expire, see config.json
             setTimeout(function () {
                 ami.action({
                     "Action": "Hangup",
@@ -78,7 +73,6 @@ ami.on('newstate', function (evt) {
 /////////////////////////////////////
 
 socket.on('connect', () => {
-    
     // Register with the Socket to join the AMI Listener Room
     socket.emit('registerAMIListener');
 }).on('QueueAdd', (data) => {
@@ -87,6 +81,7 @@ socket.on('connect', () => {
     if (virtualAgents.indexOf(data.extension) == -1)
         virtualAgents.push(data.extension)
 
+    // Add Agent to the MailQueue
     ami.action({
         "Action": "QueueAdd",
         "Interface": "PJSIP/" + data.extension,
@@ -101,7 +96,7 @@ socket.on('connect', () => {
             virtualAgents.splice(i, 1);
         }
     }
-
+    // Remove Agent from the MailQueue
     ami.action({
         "Action": "QueueRemove",
         "Interface": "PJSIP/" + data.extension,

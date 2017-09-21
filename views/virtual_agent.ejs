@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Virtual Agent</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+
+<div id="buttons" hidden>
+  <button id="answer_btn" type="button" onclick="accept_call()"> Answer </button>
+  <button id="btn-start-recording" type="button" onclick="record_call()"> Record </button>
+  <button id="btn-stop-recording" type="button" onclick="record_call()"> Stop Record </button>
+  <button id="mute-audio" type="button" class="btn btn-gray" onclick="mute_audio()"> Mute </button>
+  <button id="hide-video" type="button" class="btn btn-gray" onclick="hide_video()"> Hide </button>
+  <button id="end-call" type="button" class="btn btn-danger" onclick="terminate_call()"> End </button>
+</div>
+  <h1>Virtual Agent: <%= extension %> </h1>
+
+  <div class="vid-border">
+    remote
+    <video id="remoteView" width="320" height="240" autoplay></video>
+  </div>
+  <div class="vid-border">
+    self
+    <video id="selfView" width="320" height="240" autoplay hidden muted></video>
+  </div>
+
+
+
+
+
+
+</body>
+<!-- JSSIP-->
+<script type="text/javascript" src="./javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="./javascripts/jssip.min.js"></script>
+<script type="text/javascript" src="./javascripts/RecordRTC.js"></script>
+<script type="text/javascript" src="./javascripts/myJssip.js"></script>
+<!-- Socket.io -->
+<script src='/socket.io/socket.io.js'></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    var calldata = '';
+    var socket = io();
+    socket.on('connect', function (data) {
+      console.log('Connected to socket.io');
+      socket.emit('register-virtualagent', '<%= extension %>');
+    }).on('registerJssip', function (data) {
+      console.log('Registering JSSIP');
+      console.log(data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
+      register_jssip(data.ws, data.sipUri, data.pw, data.stun);
+    }).on('newCall', function (data) {
+      localStorage.calldata = JSON.stringify(data);
+      console.log('newCall');
+      accept_call();
+    }).on('callEnd', function (data) {
+      console.log('callEnd');
+    }).on('disconnect', function (data) {
+      // Something went wrong refresh the page.
+      location.reload();
+    });;
+  });
+</script>
+</html>

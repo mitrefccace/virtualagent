@@ -7,6 +7,14 @@ router.get('/', function (req, res, next) {
   res.render('index');
 });
 
+/* GET home page. */
+router.get('/8000+[0-5]', function (req, res, next) {
+  var vaExt = (req.path).slice(1);
+  res.render('virtual_agent', {
+    'extension': vaExt
+  });
+});
+
 router.post('/uploadFile', function (req, res) {
   console.log('/uploadFile Called');
   var formidable = require('formidable');
@@ -89,7 +97,7 @@ router.post('/uploadFile', function (req, res) {
       });
 
     }
-    
+
   });
 });
 
