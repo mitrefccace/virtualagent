@@ -84,12 +84,12 @@ socket.on('connect', () => {
 }).on('QueueAdd', (data) => {
 
     // Add the extension to the virtualAgents Array if it doesn't exist
-    if (virtualAgents.indexOf(ext) == -1)
-        virtualAgents.push(data.ext)
+    if (virtualAgents.indexOf(data.extension) == -1)
+        virtualAgents.push(data.extension)
 
     ami.action({
         "Action": "QueueAdd",
-        "Interface": "PJSIP/" + data.ext,
+        "Interface": "PJSIP/" + data.extension,
         "Paused": "false",
         "Queue": "MailQueue"
     }, function (err, res) {});
@@ -97,14 +97,14 @@ socket.on('connect', () => {
     
     // Delete from virtualAgent Array
     for (var i = virtualAgents.length - 1; i >= 0; i--) {
-        if (virtualAgents[i] === data.ext) {
+        if (virtualAgents[i] === data.extension) {
             virtualAgents.splice(i, 1);
         }
     }
 
     ami.action({
         "Action": "QueueRemove",
-        "Interface": "PJSIP/" + data.ext,
+        "Interface": "PJSIP/" + data.extension,
         "Queue": "MailQueue"
     }, function (err, res) {});
 });
