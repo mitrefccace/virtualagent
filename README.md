@@ -42,8 +42,4 @@ Virtual Agent is a component of ACE Direct used to record video mail. The Virtua
 1. Select the extension for the Virtual Agent
 
 
-
-
-<p align="center">
-    <img src='adsmall.png'/>
-</p>
+![](adsmall.png)
