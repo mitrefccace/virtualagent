@@ -6,7 +6,6 @@
         "cert": ""
     },
     "videomail": {
-        "number": "111111",
         "maxrecordsecs": 90
     },
     "mysql": {

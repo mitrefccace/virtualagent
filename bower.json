@@ -1,0 +1,19 @@
+{
+  "name": "bower",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jssip": "^3.0.13",
+    "jquery": "^3.2.1",
+    "recordrtc": "^5.4.2"
+  }
+}
