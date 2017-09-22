@@ -25,7 +25,7 @@ var ami = new AsteriskManager(
     decode(config.asterisk.port),
     decode(config.asterisk.host),
     decode(config.asterisk.user),
-    decode(config.asterisk.password),
+    decode(config.asterisk.amipw),
     true);
 
 ami.keepConnected();
