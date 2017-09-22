@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 });
 
 /* GET Virtual Agent page. /80000 - /80005 */
-router.get('/8000+[0-5]', function (req, res, next) {
+router.get('/8000+[1-5]', function (req, res, next) {
   var vaExt = (req.path).slice(1);
   res.render('virtual_agent', {
     'extension': vaExt
