@@ -17,7 +17,7 @@ function Socket(io) {
             var jssipData = {
                 "ws": "wss://"+decode(config.asterisk.fqdn)+"/ws",
                 "sipUri": "sip:"+extension+"@"+decode(config.asterisk.fqdn),
-                "pw": decode(config.asterisk.agentpw),
+                "pw": decode(config.asterisk.extpw),
                 "stun": decode(config.asterisk.stun)
             };
 
