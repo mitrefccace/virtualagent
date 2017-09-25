@@ -3,6 +3,7 @@
 Virtual Agent is a component of ACE Direct used to record video mail. The Virtual Agent's intent is to run on an unattended browser within the call center or on a virtualized windows environment. The Virtual Agent automatically answers Video Mail Queue calls, Records the Video Stream, Uploads the video (.webm) to the Server, and Inserts a record into a mySQL database table.  
 
 ### Getting Started
+To install virtual agent, follow the README.md file in the autoinstall folder. The instructions for manual install are also provided below for reference.
 1. Clone this repository
 1. Download and install [Node.js](https://nodejs.org/en/)
 1. In an elevated command prompt, run `npm install -g bower`
