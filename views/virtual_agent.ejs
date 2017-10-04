@@ -32,24 +32,24 @@
 <!-- Socket.io -->
 <script src='/socket.io/socket.io.js'></script>
 <script type="text/javascript">
-  $(document).ready(function () {
-    var calldata = '';
-    var ua;
-    var pc_config = '';
-    var currentSession;
-    var remoteStream = document.getElementById("remoteView");
-    var selfStream = document.getElementById("selfView");
-    var recorder;
-    var startTime, endTime, totalTime, remotePlayPromise, selfPlayPromise;
-    var debug = false; //console logs event info if true
-    var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
+  var calldata = '';
+  var ua;
+  var pc_config = '';
+  var currentSession;
+  var remoteStream = document.getElementById("remoteView");
+  var selfStream = document.getElementById("selfView");
+  var recorder;
+  var startTime, endTime, totalTime, remotePlayPromise, selfPlayPromise;
+  var debug = false; //console logs event info if true
+  var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
 
+  $(document).ready(function () {
     var socket = io();
     socket.on('connect', function (data) {
       if (debug) console.log('Connected to socket.io');
       socket.emit('register-virtualagent', '<%= extension %>');
     }).on('registerJssip', function (data) {
-      if (debug) console.log('Registering JSSIP\n'+ data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
+      if (debug) console.log('Registering JSSIP\n' + data.ws + "|" + data.sipUri + "|" + data.pw + "|" + data.stun)
       register_jssip(data.ws, data.sipUri, data.pw, data.stun);
     }).on('newCall', function (data) {
       if (debug) console.log('newCall');
