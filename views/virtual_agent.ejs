@@ -304,7 +304,7 @@
   }
 
   function record_call() {
-    recorder = new RecordRTCPromisesHandler(remoteStream.srcObject, {
+    recorder = RecordRTC(remoteStream.srcObject, {
       type: 'video'
     });
     recorder.startRecording();
