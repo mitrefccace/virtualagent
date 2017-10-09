@@ -46,13 +46,16 @@ ami.on('newstate', function (evt) {
         // Get the extension of the ringing line        
         var extString = evt.channel;
         var extension = extString.split(/[\/,-]/)[1];
-        
+
         // Check if extension belongs to a registered Virtual Agent, else ignore the call
         if (virtualAgents.indexOf(extension) > -1) {
             console.log("##### INCOMING CALL RINGING FOR " + extension);
-            
+
             // Emit newCall event for virtual agent to answer the call
-            socket.emit("newCall", {"extension":extension, "evt": evt});
+            socket.emit("newCall", {
+                "extension": extension,
+                "evt": evt
+            });
 
             // Force hang up after max record seconds expire, see config.json
             setTimeout(function () {
@@ -89,8 +92,18 @@ socket.on('connect', () => {
         "Paused": "false",
         "Queue": "MailQueue"
     }, function (err, res) {});
+}).on('PlayDTMF', (channel) => {
+    console.log('Play DTMF ' + channel)
+    // Kickstarts MediaRecorder by playing forcing audio track
+    setTimeout(function () {
+        ami.action({
+            "Action": "PlayDTMF",
+            "Channel": channel,
+            "Digit": 1
+        }, function (err, res) {});
+    }, 500);
 }).on('QueueRemove', (data) => {
-    
+
     // Delete from virtualAgent Array
     for (var i = virtualAgents.length - 1; i >= 0; i--) {
         if (virtualAgents[i] === data.extension) {

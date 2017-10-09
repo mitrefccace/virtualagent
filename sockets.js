@@ -34,6 +34,11 @@ function Socket(io) {
             io.to(data.extension).emit('newCall', data.evt);
         });
 
+        socket.on('callAnswered', (channel) => {
+            console.log("Call Answered");
+            io.to(amiListener).emit('PlayDTMF', channel)
+        });        
+
         // Handle disconnects, removes Agents from MailQueue.
         socket.on('disconnect', () => {
             var extension = socket['myExtension'];

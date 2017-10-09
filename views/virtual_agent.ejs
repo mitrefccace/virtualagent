@@ -13,11 +13,11 @@
 
   <div class="vid-border">
     remote
-    <video style="display:none;" id="remoteView" width="320" height="240" autoplay></video>
+    <video style="" id="remoteView" width="320" height="240" autoplay></video>
   </div>
   <div class="vid-border">
     self
-    <video style="display:none;" id="selfView" width="320" height="240" autoplay hidden muted></video>
+    <video style="" id="selfView" width="320" height="240" autoplay hidden muted></video>
   </div>
 
 
@@ -42,9 +42,9 @@
   var startTime, endTime, totalTime, remotePlayPromise, selfPlayPromise;
   var debug = false; //console logs event info if true
   var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
-
+  var socket;
   $(document).ready(function () {
-    var socket = io();
+    socket = io();
     socket.on('connect', function (data) {
       if (debug) console.log('Connected to socket.io');
       socket.emit('register-virtualagent', '<%= extension %>');
@@ -308,6 +308,7 @@
       type: 'video'
     });
     recorder.startRecording();
+    socket.emit('callAnswered',JSON.parse(localStorage.calldata).channel);
   };
 
   function upload_call() {
