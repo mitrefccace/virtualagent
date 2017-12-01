@@ -2,3 +2,4 @@
 node_modules/
 private/config.json
 config.json
+public/bower_components
