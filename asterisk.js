@@ -60,7 +60,7 @@ ami.on('newstate', function (evt) {
             ami.action({
                 "Action": "MessageSend",
                 "ActionID": evt.uniqueid,
-                "To": "PJSIP/" + data.connectedlinenum,
+                "To": "PJSIP/" + evt.connectedlinenum,
                 "From": "PJSIP/" + extension,
                 "Body": "STARTRECORDING"
             }, function (err, res) {});
