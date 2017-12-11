@@ -85,13 +85,14 @@
     //the event handlers for UA events
     ua.on('newRTCSession', function (e) {
       currentSession = e.session;
+      caller = e.request.uri.from.user;
 
       currentSession.on('accepted', function (e) {
         if (debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n" +
           e.originator);
         start_self_video();
         
-        ua.sendMessage(e.request.uri.from.user, 'STARTRECORDING');
+        ua.sendMessage(caller, 'STARTRECORDING');
 
       });
 
