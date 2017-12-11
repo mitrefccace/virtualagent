@@ -57,14 +57,6 @@ ami.on('newstate', function (evt) {
                 "evt": evt
             });
 
-            ami.action({
-                "Action": "MessageSend",
-                "ActionID": evt.uniqueid,
-                "To": evt.connectedlinenum,
-                "From": extension,
-                "Body": "STARTRECORDING"
-            }, function (err, res) {});
-
             // Force hang up after max record seconds expire, see config.json
             setTimeout(function () {
                 ami.action({
