@@ -90,14 +90,8 @@
         if (debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n" +
           e.originator);
         start_self_video();
-        var eventHandlers = {
-          'succeeded': function (data) { /* Your code here */ },
-          'failed': function (data) { /* Your code here */ };
-        };
-        var options = {
-          'eventHandlers': eventHandlers
-        };
-        ua.sendMessage(e.request.uri.from.user, 'STARTRECORDING', options);
+        
+        ua.sendMessage(e.request.uri.from.user, 'STARTRECORDING');
 
       });
 
