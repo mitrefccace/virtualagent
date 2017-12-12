@@ -84,9 +84,9 @@ router.post('/uploadFile', function (req, res) {
       var path = fullpath.substring(0, fullpath.lastIndexOf("/") + 1);
       var filename = fullpath.substring(fullpath.lastIndexOf("/") + 1);
       var query = "INSERT INTO " + config.mysql.videomailtable +
-        " (extension, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      var args = [ext, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, null, calldata.channel, calldata.uniqueid, filename, path];
+        " (extension, callbacknumber, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      var args = [ext, calldata.callbacknum, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, null, calldata.channel, calldata.uniqueid, filename, path];
       req.mysql.query(query, args, function (err, result) {
         if (err) {
           console.log("Mysql Error on insert: " + err)

@@ -1,6 +1,25 @@
 var config = require('./private/config.json');
 var decode = require('./decode');
+var redis = require("redis");
 const amiListener = 'amiListener';
+
+// Contains the extension (e.g. 90001) mapped to the VRS number (e.g. 7171234567)
+// Redis will double map these key values meaning both will exist
+// key:value 90001:7035551234 and 7035551234:90001
+var rExtensionToVrs = 'extensionToVrs';
+
+// Create a connection to Redis
+var redisClient = redis.createClient(decode(config.redis.port), decode(config.redis.host));
+
+redisClient.on("error", function (err) {
+	console.log("Redis connection error" + err);
+});
+
+redisClient.auth(decode(config.redis.auth));
+
+redisClient.on('connect', function () {
+	console.log("Connected to Redis");
+});
 
 function Socket(io) {
     
@@ -31,7 +50,14 @@ function Socket(io) {
 
         socket.on('newCall', (data) => {
             console.log("Firing newCall to " + data.extension);
-            io.to(data.extension).emit('newCall', data.evt);
+			redisClient.hget('extensionToVrs', data.evt.connectedlinenum, function (err, callbacknum) {
+                if(err){
+                    console.log("Error: " + err);
+				}else{
+                    data.evt.callbacknum = callbacknum || data.evt.connectedlinenum;				
+					io.to(data.extension).emit('newCall', data.evt);
+				}
+			});
         });
 
         socket.on('callAnswered', (channel) => {
