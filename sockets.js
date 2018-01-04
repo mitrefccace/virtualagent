@@ -35,7 +35,7 @@ function Socket(io) {
             socket.join(extension);
             
             var jssipData = {
-                "ws": "wss://"+decode(config.asterisk.sip.public)+":" + decode(config.asterisk.sip..ws_port) + "/ws",
+                "ws": "wss://"+decode(config.asterisk.sip.public)+":" + decode(config.asterisk.sip.ws_port) + "/ws",
                 "sipUri": "sip:"+extension+"@"+decode(config.asterisk.sip.public),
                 "pw": decode(config.asterisk.extensions.secret),
                 "stun": decode(config.asterisk.sip.stun)
