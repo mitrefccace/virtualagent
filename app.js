@@ -1,4 +1,5 @@
-var config = require('./private/config.json');
+//var config = require('./private/config.json');
+var config = require('/home/centos/dat/config.json');
 var decode = require('./decode');
 var express = require('express');
 var path = require('path');
@@ -11,15 +12,16 @@ var app = express();
 
 // Create MySQL connection and connect to the database
 var connection = mysql.createConnection({
-  host: decode(config.mysql.host),
-  port: decode(config.mysql.port),
-  user: decode(config.mysql.user),
-  password: decode(config.mysql.password),
-  database: decode(config.mysql.database)
+  host: decode(config.database_servers.mysql.host),
+  port: decode(config.database_servers.mysql.port),
+  user: decode(config.database_servers.mysql.user),
+  password: decode(config.database_servers.mysql.password),
+  database: decode(config.database_servers.mysql.videomail_database_name)
 });
 
 connection.connect(function (err) {
   if (err) {
+	console.log(err)
     console.log("MySQL Connection Error");
     process.exit(1); // Exit on MySQL error
   } else {

@@ -1,4 +1,5 @@
-var config = require('./private/config.json');
+//var config = require('./private/config.json');
+var config = require('/home/centos/dat/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
 var decode = require('./decode');
@@ -7,7 +8,7 @@ var decode = require('./decode');
 var virtualAgents = [];
 
 // Socket for communications to virtual agent
-var socketPath = decode(config.protocol) + '://localhost:' + decode(config.port);
+var socketPath = decode(config.virtual_agent.protocol) + '://localhost:' + decode(config.virtual_agent.port);
 var socket = io.connect(socketPath, {
     reconnect: true,
     secure: true,
@@ -15,17 +16,17 @@ var socket = io.connect(socketPath, {
 });
 
 console.log("Asterisk configs:");
-console.log("    port: " + decode(config.asterisk.port));
-console.log("    host: " + decode(config.asterisk.host));
-console.log("    user: " + decode(config.asterisk.user));
-console.log("    pass: " + decode(config.asterisk.amipw));
+console.log("    port: " + decode(config.asterisk.ami.port));
+console.log("    host: " + decode(config.asterisk.sip.private_ip));
+console.log("    user: " + decode(config.asterisk.ami.id));
+console.log("    pass: " + decode(config.asterisk.ami.passwd));
 
 
 var ami = new AsteriskManager(
-    decode(config.asterisk.port),
-    decode(config.asterisk.host),
-    decode(config.asterisk.user),
-    decode(config.asterisk.amipw),
+    decode(config.asterisk.ami.port),
+    decode(config.asterisk.sip.private_ip),
+    decode(config.asterisk.ami.id),
+    decode(config.asterisk.ami.passwd),
     true);
 
 ami.keepConnected();
@@ -65,7 +66,7 @@ ami.on('newstate', function (evt) {
                     "Channel": evt.channel,
                     "Cause": 1
                 }, function (err, res) {});
-            }, parseInt(decode(config.videomail.maxrecordsecs)) * 1000);
+            }, parseInt(decode(config.virtual_agent.videomail.maxrecordsecs)) * 1000);
 
         }
     }

@@ -1,4 +1,5 @@
-var config = require('./private/config.json');
+//var config = require('./private/config.json');
+var config = require('/home/centos/dat/config.json');
 var decode = require('./decode');
 var redis = require("redis");
 const amiListener = 'amiListener';
@@ -9,13 +10,13 @@ const amiListener = 'amiListener';
 var rExtensionToVrs = 'extensionToVrs';
 
 // Create a connection to Redis
-var redisClient = redis.createClient(decode(config.redis.port), decode(config.redis.host));
+var redisClient = redis.createClient(decode(config.database_servers.redis.port), decode(config.database_servers.redis.host));
 
 redisClient.on("error", function (err) {
 	console.log("Redis connection error" + err);
 });
 
-redisClient.auth(decode(config.redis.auth));
+redisClient.auth(decode(config.database_servers.redis.auth));
 
 redisClient.on('connect', function () {
 	console.log("Connected to Redis");
@@ -34,10 +35,10 @@ function Socket(io) {
             socket.join(extension);
             
             var jssipData = {
-                "ws": "wss://"+decode(config.asterisk.fqdn)+":" + decode(config.asterisk.wsport) + "/ws",
-                "sipUri": "sip:"+extension+"@"+decode(config.asterisk.fqdn),
-                "pw": decode(config.asterisk.extpw),
-                "stun": decode(config.asterisk.stun)
+                "ws": "wss://"+decode(config.asterisk.sip.public)+":" + decode(config.asterisk.sip..ws_port) + "/ws",
+                "sipUri": "sip:"+extension+"@"+decode(config.asterisk.sip.public),
+                "pw": decode(config.asterisk.extensions.secret),
+                "stun": decode(config.asterisk.sip.stun)
             };
 
             io.to(amiListener).emit('QueueAdd', {'extension': extension});

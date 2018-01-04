@@ -91,8 +91,15 @@
         if (debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n" +
           e.originator);
         start_self_video();
-        
-        ua.sendMessage(caller, 'STARTRECORDING');
+var eventHandlers = {
+  'succeeded': function(e){ console.log('PASSED ' + JSON.stringify(e)) },
+  'failed':    function(e){ console.log('FAILED ' + JSON.stringify(e)) }
+};
+
+var options = {
+  'eventHandlers': eventHandlers
+};        
+        ua.sendMessage(caller, 'STARTRECORDING', options);
 
       });
 

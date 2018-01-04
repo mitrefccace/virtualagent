@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../private/config.json');
+//var config = require('../private/config.json');
+var config = require('/home/centos/dat/config.json');
+var decode = require('../decode');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -83,7 +85,7 @@ router.post('/uploadFile', function (req, res) {
       var ext = calldata.connectedlinenum;
       var path = fullpath.substring(0, fullpath.lastIndexOf("/") + 1);
       var filename = fullpath.substring(fullpath.lastIndexOf("/") + 1);
-      var query = "INSERT INTO " + config.mysql.videomailtable +
+      var query = "INSERT INTO " + decode(config.database_servers.mysql.videomail_table_name) +
         " (extension, callbacknumber, recording_agent, processing_agent, received, processed, video_duration, status, deleted, src_channel, dest_channel, unique_id, video_filename, video_filepath)" +
         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       var args = [ext, calldata.callbacknum, 'virtualagent', null, new Date(), null, video_duration, 'UNREAD', 0, null, calldata.channel, calldata.uniqueid, filename, path];
