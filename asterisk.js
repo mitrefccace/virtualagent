@@ -1,5 +1,5 @@
 //var config = require('./private/config.json');
-var config = require('/home/centos/dat/config.json');
+var config = require('../dat/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
 var decode = require('./decode');

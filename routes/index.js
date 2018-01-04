@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 //var config = require('../private/config.json');
-var config = require('/home/centos/dat/config.json');
+var config = require('../../dat/config.json');
 var decode = require('../decode');
 
 /* GET home page. */
