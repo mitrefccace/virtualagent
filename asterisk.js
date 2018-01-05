@@ -66,7 +66,7 @@ ami.on('newstate', function (evt) {
                     "Channel": evt.channel,
                     "Cause": 1
                 }, function (err, res) {});
-            }, parseInt(decode(config.virtual_agent.videomail.maxrecordsecs)) * 1000);
+            }, (parseInt(decode(config.videomail.max_record_secs))+5) * 1000);
 
         }
     }
