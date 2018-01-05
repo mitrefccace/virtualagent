@@ -38,7 +38,7 @@ function Socket(io) {
                 "ws": "wss://"+decode(config.asterisk.sip.public)+":" + decode(config.asterisk.sip.ws_port) + "/ws",
                 "sipUri": "sip:"+extension+"@"+decode(config.asterisk.sip.public),
                 "pw": decode(config.asterisk.extensions.secret),
-                "stun": decode(config.asterisk.sip.stun)
+                "stun": "stun:"+decode(config.asterisk.sip.stun)
             };
 
             io.to(amiListener).emit('QueueAdd', {'extension': extension});
