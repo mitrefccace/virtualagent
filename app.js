@@ -16,7 +16,7 @@ var connection = mysql.createConnection({
   port: decode(config.database_servers.mysql.port),
   user: decode(config.database_servers.mysql.user),
   password: decode(config.database_servers.mysql.password),
-  database: decode(config.database_servers.mysql.database_name)
+  database: decode(config.database_servers.mysql.ad_database_name)
 });
 
 connection.connect(function (err) {
