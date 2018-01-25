@@ -38,7 +38,7 @@ if (decode(config.virtual_agent.protocol) === "https") {
 /**
  * Add socket.io to the server.
  */
-var io = require('socket.io').listen(server)
+var io = require('socket.io')(server,{wsEngine:'ws'})
 require('../sockets')(io);
 
 /**
