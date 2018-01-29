@@ -23,22 +23,20 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-if (decode(config.virtual_agent.protocol) === "https") {
-  console.log("https");
-  var credentials = {
-    key: fs.readFileSync(decode(config.common.https.private_key)),
-    cert: fs.readFileSync(decode(config.common.https.certificate))
-  };
-  var server = https.createServer(credentials, app);
-} else {
-  console.log("http");
-  var server = http.createServer(app);
-}
+
+var credentials = {
+  key: fs.readFileSync(decode(config.common.https.private_key)),
+  cert: fs.readFileSync(decode(config.common.https.certificate))
+};
+var server = https.createServer(credentials, app);
+
 
 /**
  * Add socket.io to the server.
  */
-var io = require('socket.io')(server,{wsEngine:'ws'})
+var io = require('socket.io')(server, {
+  wsEngine: 'ws'
+})
 require('../sockets')(io);
 
 /**
@@ -87,9 +85,9 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -112,8 +110,8 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
   console.log('Listening on ' + bind);
 }
