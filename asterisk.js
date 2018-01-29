@@ -8,7 +8,7 @@ var decode = require('./decode');
 var virtualAgents = [];
 
 // Socket for communications to virtual agent
-var socketPath = decode(config.virtual_agent.protocol) + '://localhost:' + decode(config.virtual_agent.port);
+var socketPath = 'https://localhost:' + decode(config.virtual_agent.port);
 var socket = io.connect(socketPath, {
     reconnect: true,
     secure: true,
