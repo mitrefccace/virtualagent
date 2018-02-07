@@ -15,11 +15,8 @@ To install virtual agent, follow the README.md file in the autoinstall folder. T
 
 ### SSL Configuration
 1. This software uses SSL which requires a valid key and certificate
-1. The location of the SSL key and certificate can be specified in the config.json by using the ssl:cert and ssl:key parameters in the form of folder/file (e.g., ssl/mycert.pem and ssl/mykey.pem)
+1. The location of the SSL key and certificate is specified in the ~/dat/config.json by using the common:https:certificate and common:https:private_key parameters in the form of folder/file (e.g., /home/centos/ssl/mycert.pem and /home/centos/ssl/mykey.pem)
 
 ### Accessing the Virtual Agent
 1. Go to: https://`<hostname:port>`/
 1. Select the extension for the Virtual Agent
-
-
-
