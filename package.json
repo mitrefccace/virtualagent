@@ -9,7 +9,7 @@
     "asterisk-manager": "^0.1.16",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
+    "debug": "~2.6.9",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "formidable": "^1.1.1",
