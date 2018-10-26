@@ -8,9 +8,8 @@ Virtual Agent is a component of ACE Direct used to record video mail. The Virtua
 To install virtual agent, follow the README.md file in the autoinstall folder. The instructions for manual install are also provided below for reference.
 1. Clone this repository
 1. Download and install [Node.js](https://nodejs.org/en/)
-1. In an elevated command prompt, run `npm install -g bower`
 1. Install the required Node.js modules: cd into the virtualagent directory, run `npm install`
-1. Install the required Bower packages: cd into the virtualagent directory, run `bower install`
+1. Move the web dependencies to the public/assets directory, run `npm run build`
 1. To start the Virtual Agent node server manually, run `npm start`
 
 ### SSL Configuration
