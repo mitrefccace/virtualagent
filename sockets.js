@@ -1,4 +1,3 @@
-//var config = require('./private/config.json');
 var config = require('../dat/config.json');
 var decode = require('./decode');
 var redis = require("redis");
@@ -23,17 +22,17 @@ redisClient.on('connect', function () {
 });
 
 function Socket(io) {
-    
+
     io.on('connection', (socket) => {
         console.log("Connected to Socket");
 
         socket.on('register-virtualagent', (extension) => {
             console.log('VA ' + extension + ' is now Registered.');
 
-            // Save extension to the socket connection            
+            // Save extension to the socket connection
             socket['myExtension'] = extension;
             socket.join(extension);
-            
+
             var jssipData = {
                 "ws": "wss://"+decode(config.asterisk.sip.public)+":" + decode(config.asterisk.sip.ws_port) + "/ws",
                 "sipUri": "sip:"+extension+"@"+decode(config.asterisk.sip.public),
@@ -55,7 +54,7 @@ function Socket(io) {
                 if(err){
                     console.log("Error: " + err);
 				}else{
-                    data.evt.callbacknum = callbacknum || data.evt.connectedlinenum;				
+                    data.evt.callbacknum = callbacknum || data.evt.connectedlinenum;
 					io.to(data.extension).emit('newCall', data.evt);
 				}
 			});
@@ -64,7 +63,7 @@ function Socket(io) {
         socket.on('callAnswered', (channel) => {
             console.log("Call Answered");
             io.to(amiListener).emit('PlayDTMF', channel)
-        });        
+        });
 
         // Handle disconnects, removes Agents from MailQueue.
         socket.on('disconnect', () => {
@@ -74,6 +73,6 @@ function Socket(io) {
             io.to(amiListener).emit('QueueRemove', {'extension': extension});
         });
     });
-};
+}
 
 module.exports = Socket;

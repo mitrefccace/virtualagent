@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-//var config = require('../private/config.json');
 var config = require('../../dat/config.json');
 var decode = require('../decode');
 
@@ -41,27 +40,26 @@ router.post('/uploadFile', function (req, res) {
       res.write('an error occurred');
     } else {
 
-      //console.log("CallData: " + fields.calldata);
 
       var calldata = JSON.parse(fields.calldata);
       var video_duration = fields.callTime;
       console.log("channel: " + calldata.channel);
       console.log("video_duration: " + video_duration);
 
-      /* Example files
+      /* Example files 999999 is the sample Asterisk dial-in number for videomail
         \"event\":\"Newstate\",
         \"privilege\":\"call,all\",
         \"channel\":\"PJSIP/80001-000000e4\",
         \"channelstate\":\"5\",
         \"channelstatedesc\":\"Ringing\",
-        \"calleridnum\":\"575795\",
+        \"calleridnum\":\"999999\",
         \"calleridname\":\"<unknown>\",
         \"connectedlinenum\":\"90003\",
         \"connectedlinename\":\"<unknown>\",
         \"language\":\"en\",
         \"accountcode\":\"\",
         \"context\":\"from-internal\",
-        \"exten\":\"575795\",
+        \"exten\":\"999999\",
         \"priority\":\"1\",
         \"uniqueid\":\"1503683575.385\",
         \"linkedid\":\"1503683574.384\"
@@ -77,8 +75,8 @@ router.post('/uploadFile', function (req, res) {
       }
 
 
-      
-      extension|recording_agent|processing_agent|received           |processed          |video_duration|status|deleted |src_channel      |dest_channel         |unique_id   |video_filename                              |video_filepath      
+
+      extension|recording_agent|processing_agent|received           |processed          |video_duration|status|deleted |src_channel      |dest_channel         |unique_id   |video_filename                              |video_filepath
       32767    |virtualagent   |agent1          |2017-08-17 15:16:22|2017-08-17 15:16:22|90            |UNREAD|       0|SIP/5001-00000000|SIP/twilio0-00000001 |1497537484.1|upload_b91df3726d2e03b0d663efe24b5a615a.webm|/home/centos/virtualagent/uploads/ |
       */
       var fullpath = files.file.path

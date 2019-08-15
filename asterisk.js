@@ -1,4 +1,3 @@
-//var config = require('./private/config.json');
 var config = require('../dat/config.json');
 var AsteriskManager = require('asterisk-manager');
 var io = require('socket.io-client');
@@ -44,7 +43,7 @@ ami.on('newstate', function (evt) {
     console.log('\nIncoming Newstate event');
     if (evt.channelstate === "5") {
 
-        // Get the extension of the ringing line        
+        // Get the extension of the ringing line
         var extString = evt.channel;
         var extension = extString.split(/[\/,-]/)[1];
 
@@ -83,7 +82,7 @@ socket.on('connect', () => {
 }).on('QueueAdd', (data) => {
 
     // Add the extension to the virtualAgents Array if it doesn't exist
-    if (virtualAgents.indexOf(data.extension) == -1)
+    if (virtualAgents.indexOf(data.extension) === -1)
         virtualAgents.push(data.extension)
 
     // Add Agent to the MailQueue

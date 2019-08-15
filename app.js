@@ -1,4 +1,3 @@
-//var config = require('./private/config.json');
 var config = require('../dat/config.json');
 var decode = require('./decode');
 var express = require('express');
@@ -38,7 +37,6 @@ setInterval(function () {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
