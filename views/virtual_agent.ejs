@@ -132,7 +132,7 @@ var options = {
     if (currentSession) {
       var options = {
         'mediaConstraints': {
-          'audio': true,
+          'audio': false,
           'video': true
         },
         'pcConfig': {
@@ -193,7 +193,7 @@ var options = {
       }
 
       navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: false,
         video: true
       }).then(function (stream) {
         selfStream.removeAttribute("hidden");
@@ -279,9 +279,11 @@ var options = {
 
       xhr('/uploadFile', file, function (responseText) {
         console.info('FileUploaded: ' + responseText);
+        location.reload();
       });
     } else {
       console.log("no data in video record");
+      location.reload();
     }
 
   }
