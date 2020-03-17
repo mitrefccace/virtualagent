@@ -33,6 +33,23 @@ setInterval(function () {
   connection.ping();
 }, 60000);
 
+
+//Handle Ctrl-C (graceful shutdown)
+process.on('SIGINT', function () {
+  console.log('SIGINT caught...');
+  connection.destroy(); //destroy db connection
+  process.exit(0);
+});
+
+//graceful shutdown, especially with node restarts
+process.on('exit', function() {
+  console.log('exit caught');
+  console.log('DESTROYING DB CONNECTION');
+  connection.destroy(); //destroy db connection
+  process.exit(0);
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

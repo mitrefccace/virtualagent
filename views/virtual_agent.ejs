@@ -54,7 +54,7 @@
     }).on('newCall', function (data) {
       if (debug) console.log('newCall');
       localStorage.calldata = JSON.stringify(data);
-      accept_call();
+      setTimeout(() => { accept_call(); }, 1000);
     }).on('disconnect', function (data) {
       if (debug) console.log('socket disconnect');
       // Something went wrong refresh the page.
@@ -91,14 +91,14 @@
         if (debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n" +
           e.originator);
         start_self_video();
-var eventHandlers = {
-  'succeeded': function(e){ console.log('PASSED ' + JSON.stringify(e)) },
-  'failed':    function(e){ console.log('FAILED ' + JSON.stringify(e)) }
-};
+        var eventHandlers = {
+          'succeeded': function (e) { console.log('PASSED ' + JSON.stringify(e)) },
+          'failed': function (e) { console.log('FAILED ' + JSON.stringify(e)) }
+        };
 
-var options = {
-  'eventHandlers': eventHandlers
-};        
+        var options = {
+          'eventHandlers': eventHandlers
+        };
         ua.sendMessage(caller, 'STARTRECORDING', options);
 
       });
@@ -112,6 +112,10 @@ var options = {
         if (debug) console.log('\nCURRENTSESSION -  FAILED: \nMESSAGE:\n' + e.message + "\nCAUSE:\n" + e.cause +
           "\nORIGINATOR:\n" + e.originator);
         terminate_call();
+      });
+
+      currentSession.on('sdp', function (e) {
+        if (debug) console.log('\nCURRENTSESSION -  SDP: \n' + e.sdp)
       });
 
       //event listener for remote video. Adds to html page when ready. 
