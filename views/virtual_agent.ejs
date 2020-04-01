@@ -40,7 +40,7 @@
   var selfStream = document.getElementById("selfView");
   var recorder;
   var startTime, endTime, totalTime, remotePlayPromise, selfPlayPromise;
-  var debug = false; //console logs event info if true
+  var debug = true; //console logs event info if true
   var jssip_debug = false; //enables debugging logs from jssip library if true NOTE: may have to refresh a lot to update change
   var socket;
   $(document).ready(function () {
@@ -54,7 +54,7 @@
     }).on('newCall', function (data) {
       if (debug) console.log('newCall');
       localStorage.calldata = JSON.stringify(data);
-      setTimeout(() => { accept_call(); }, 1000);
+      setTimeout(() => { accept_call(); }, 1000)
     }).on('disconnect', function (data) {
       if (debug) console.log('socket disconnect');
       // Something went wrong refresh the page.
@@ -104,18 +104,21 @@
       });
 
       currentSession.on('ended', function (e) {
-        if (debug) console.log('\nCURRENTSESSION -  ENDED: \nMESSAGE:\n' + e.message + "CAUSE:\n" + e.cause);
+        if (debug) console.log('\nCURRENTSESSIOiN -  ENDED: \nMESSAGE:\n' + e.message + "CAUSE:\n" + e.cause);
         terminate_call();
       });
+
+
+      currentSession.on('sdp', function (e) {
+        //e.sdp = edit_request_with_packetizationmode(e.sdp);
+      });
+
+
 
       currentSession.on('failed', function (e) {
         if (debug) console.log('\nCURRENTSESSION -  FAILED: \nMESSAGE:\n' + e.message + "\nCAUSE:\n" + e.cause +
           "\nORIGINATOR:\n" + e.originator);
         terminate_call();
-      });
-
-      currentSession.on('sdp', function (e) {
-        if (debug) console.log('\nCURRENTSESSION -  SDP: \n' + e.sdp)
       });
 
       //event listener for remote video. Adds to html page when ready. 
@@ -157,7 +160,73 @@
         if (debug) console.log('ontrack:' + JSON.stringify(e));
         remoteStream.srcObject = e.streams[0];
         remotePlayPromise = remoteStream.play();
-        record_call();
+	remotePlayPromise.then(function(){
+          playVideoFile('ready.webm')
+          setTimeout(function () {
+		currentSession.mute({
+        		audio: false,
+        		video: true
+      		});
+		setTimeout(function(){
+            		setInterval(function(){playVideoFile('recording.webm');},3000)
+            		playVideoFile('recording.webm');
+            		record_call();
+          	}, 500);
+	  },3000);
+        });
+      };
+    }
+  }
+
+  function playVideoFile(filename) {
+
+    if (currentSession) {
+      currentSession.mute({
+        audio: false,
+        video: true
+      });
+     
+      // the following piece of code does not seem to stop the video at remote side
+      if (window.self_stream) {
+        if (window.self_stream.getVideoTracks()) {
+          if (window.self_stream.getVideoTracks()[0]) {
+            window.self_stream.getVideoTracks()[0].stop();
+            console.log("videotrack[0] stopped");
+          }
+        }
+      }
+
+      selfStream.srcObject = null;
+      selfStream.src = "videos/"+filename;
+      selfStream.type = 'type="video/webm"';
+      selfStream.setAttribute("loop", "true");
+
+      //important - play() returns a Promise (async)
+      var playPromise = selfStream.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function () {
+          //do not unmute until play() Promise returns
+          currentSession.unmute({
+            audio: false,
+            video: true
+          });
+        }).catch(function (error) {
+	  console.log(">>>>>>>>>>"+error)
+          console.error('ERROR - this browser does not support play() Promise');
+        });
+      }
+
+      selfStream.onplay = function () {
+        // Set the source of one <video> element to be a stream from another.
+        var stream = selfStream.captureStream();
+        stream.onactive = function () {		// without onactive the tracks of captured stream may be empty
+          // replace remote screen to be the captured stream
+          var tracks = stream.getTracks();
+           Promise.all(currentSession.connection.getSenders().map(sender => {
+		if(sender&&sender.track&&stream)
+            		sender.replaceTrack(stream.getTracks().find(t => t.kind == sender.track.kind), stream)
+	   }));
+        }
       };
     }
   }
@@ -321,6 +390,8 @@
   }
 
   function record_call() {
+    //currentSession.mute({audio:false, video:true});
+    //setTimeout(()=>{currentSession.unmute({audio:false, video:true});},1000)
     recorder = RecordRTC(remoteStream.srcObject, {
       type: 'video'
     });
@@ -329,8 +400,12 @@
   };
 
   function upload_call() {
-    if (typeof recorder != 'undefined')
+    if (typeof recorder != 'undefined'){
       recorder.stopRecording(postFiles);
+    }else{
+	console.log("Error call never recorded")
+	location.reload()
+    }
   };
 
   function startTimer() {
@@ -347,6 +422,50 @@
     totalTime = Math.round(timeDiff);
     console.log(totalTime + " sec");
   }
+
+
+
+
+  function edit_request_with_packetizationmode(request) {
+    return request;
+    console.log("EDITING SDP REQUEST from packetization-mode=1 to packetizationmode=0",request);
+
+    if (request !== undefined) {
+      var request_lines = request.split('\n');
+      for (var i = 0; i < request_lines.length; i++) {
+        //if (request_lines[i].includes("profile-level-id")) {
+        if (request_lines[i].includes("fmtp:99")|request_lines[i].includes("profile-level-id")) {
+          if (!request_lines[i].includes("packetization-mode")) { // add if does not include - Z20
+            request_lines[i] = request_lines[i] + ";packetization-mode=0";
+            console.log("ADD incoming SDP with packetization-mode=0");
+          }
+
+          if (request_lines[i].includes("packetization-mode=1")) { // change it to packetiation-mode 1
+            request_lines[i].replace("packetization-mode=1", "packetization-mode=0");
+            console.log("REPALCE with packetization-mode=0");
+          }
+        }
+
+      }
+      var new_request = request_lines.join('\n');
+    } else {
+      var new_request = request;
+    }
+
+    return new_request;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 </html>
