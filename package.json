@@ -16,14 +16,14 @@
     "formidable": "^1.2.2",
     "fresh": "^0.5.2",
     "https": "^1.0.0",
+    "jquery": "^3.5.0",
     "jssip": "3.3.11",
     "mime": "^1.6.0",
     "mysql": "^2.18.1",
+    "qs": "^6.2.3",
     "recordrtc": "5.4.2",
     "redis": "2.8.0",
     "socket.io": "^2.3.0"
   },
-  "devDependencies": {
-    "jquery": "^3.4.1"
-  }
+  "devDependencies": {}
 }

@@ -91,16 +91,6 @@
         if (debug) console.log('\nCURRENTSESSION -  ACCEPTED: \nRESPONSE: \n' + e.response + "\nORIGINATOR:\n" +
           e.originator);
         start_self_video();
-        var eventHandlers = {
-          'succeeded': function (e) { console.log('PASSED ' + JSON.stringify(e)) },
-          'failed': function (e) { console.log('FAILED ' + JSON.stringify(e)) }
-        };
-
-        var options = {
-          'eventHandlers': eventHandlers
-        };
-        ua.sendMessage(caller, 'STARTRECORDING', options);
-
       });
 
       currentSession.on('ended', function (e) {
@@ -152,7 +142,6 @@
         }
       };
       currentSession.answer(options);
-      startTimer();
 
       //event listener for remote video. Adds to html page when ready. 
       //NOTE: needs to be both here and in the newRTCSession event listener because currentSession.connection is not established until after ua.answer() for incoming calls
@@ -392,6 +381,18 @@
   function record_call() {
     //currentSession.mute({audio:false, video:true});
     //setTimeout(()=>{currentSession.unmute({audio:false, video:true});},1000)
+
+    startTimer();
+    var eventHandlers = {
+      'succeeded': function (e) { console.log('PASSED ' + JSON.stringify(e)) },
+      'failed': function (e) { console.log('FAILED ' + JSON.stringify(e)) }
+    };
+    var options = {
+      'eventHandlers': eventHandlers
+    };
+    ua.sendMessage(caller, 'STARTRECORDING', options);
+
+
     recorder = RecordRTC(remoteStream.srcObject, {
       type: 'video'
     });
